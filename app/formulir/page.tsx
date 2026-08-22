@@ -58,7 +58,7 @@ const kategoriPelaporan: Kategori[] = [
         id: "pembatalan-perkawinan",
         label: "Pembatalan Perkawinan",
         deskripsi: "Pembatalan akta perkawinan yang sudah terbit",
-        href: "/formulir/perkawinan?mode=pembatalan",
+        href: "/formulir/pembatalan-perkawinan",
       },
       {
         id: "perceraian",
@@ -70,7 +70,7 @@ const kategoriPelaporan: Kategori[] = [
         id: "pembatalan-perceraian",
         label: "Pembatalan Perceraian",
         deskripsi: "Pembatalan akta perceraian yang sudah terbit",
-        href: "/formulir/perceraian?mode=pembatalan",
+        href: "/formulir/pembatalan-perceraian",
       },
     ],
   },
