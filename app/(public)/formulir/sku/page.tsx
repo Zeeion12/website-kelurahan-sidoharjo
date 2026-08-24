@@ -17,6 +17,7 @@ import { Field } from "@/components/forms/field";
 import { FormSection } from "@/components/forms/form-section";
 import { TicketResult } from "@/components/forms/ticket-result";
 import { JenisKelaminRadio } from "@/components/forms/jenis-kelamin-radio";
+import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
 import { skuSchema, type SkuFormValues } from "@/lib/validations/sku.schema";
 import { getJenisSuratById } from "@/config/jenis-surat";
 import { generateNomorTiket } from "@/lib/generate-tiket";
@@ -44,7 +45,7 @@ export default function SkuFormPage() {
             agama: "" as SkuFormValues["agama"],
             statusPerkawinan: "" as SkuFormValues["statusPerkawinan"],
             pekerjaan: "",
-            alamat: { padukuhan: "", rt: "", rw: "" },
+            alamat: { padukuhan: "" as SkuFormValues["alamat"]["padukuhan"], rt: "", rw: "" },
             bidangUsaha: "",
             lokasiUsaha: "",
         },
@@ -177,7 +178,17 @@ export default function SkuFormPage() {
                                 htmlFor="alamat.padukuhan"
                                 error={errors.alamat?.padukuhan?.message}
                             >
-                                <Input id="alamat.padukuhan" {...register("alamat.padukuhan")} />
+                                <Controller
+                                    name="alamat.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamat.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">
                                 <Field label="RT" htmlFor="alamat.rt" error={errors.alamat?.rt?.message}>

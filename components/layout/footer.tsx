@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
     return (
         <footer className="border-t border-border bg-muted/30">
@@ -7,9 +9,15 @@ export function Footer() {
                 </p>
                 <p>Bintaos, Sidoharjo, Tepus, Gunungkidul, Kode Pos 55881</p>
                 <p>Email: sidoharjotepus.1949@gmail.com</p>
-                <p className="mt-4 text-xs">
-                    &copy; {new Date().getFullYear()} Kalurahan Sidoharjo. Layanan surat online.
-                </p>
+                <div className="mt-4 flex items-center justify-between text-xs">
+                    <p>
+                        &copy; {new Date().getFullYear()} Kalurahan Sidoharjo. Layanan surat
+                        online.
+                    </p>
+                    <Link href="/login" className="hover:text-foreground hover:underline">
+                        Login Petugas
+                    </Link>
+                </div>
             </div>
         </footer>
     );

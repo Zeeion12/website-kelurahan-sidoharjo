@@ -19,6 +19,7 @@ import { Field } from "@/components/forms/field";
 import { FormSection } from "@/components/forms/form-section";
 import { TicketResult } from "@/components/forms/ticket-result";
 import { JenisKelaminRadio } from "@/components/forms/jenis-kelamin-radio";
+import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
 import {
     kelahiranSchema,
     type KelahiranFormInput,
@@ -43,11 +44,19 @@ export default function KelahiranFormPage() {
             namaAyah: "",
             nikAyah: "",
             pekerjaanAyah: "",
-            alamatAyah: { padukuhan: "", rt: "", rw: "" },
+            alamatAyah: {
+                padukuhan: "" as KelahiranFormInput["alamatAyah"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
             namaIbu: "",
             nikIbu: "",
             pekerjaanIbu: "",
-            alamatIbu: { padukuhan: "", rt: "", rw: "" },
+            alamatIbu: {
+                padukuhan: "" as KelahiranFormInput["alamatIbu"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
             tanggalPerkawinan: "",
             namaAnak: "",
             jenisKelaminAnak: "" as KelahiranFormInput["jenisKelaminAnak"],
@@ -62,7 +71,11 @@ export default function KelahiranFormPage() {
             namaPelapor: "",
             nikPelapor: "",
             pekerjaanPelapor: "",
-            alamatPelapor: { padukuhan: "", rt: "", rw: "" },
+            alamatPelapor: {
+                padukuhan: "" as KelahiranFormInput["alamatPelapor"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
             saksi1: { nama: "", umur: 0, pekerjaan: "", alamat: "" },
             saksi2: { nama: "", umur: 0, pekerjaan: "", alamat: "" },
         },
@@ -150,7 +163,17 @@ export default function KelahiranFormPage() {
                                 htmlFor="alamatAyah.padukuhan"
                                 error={errors.alamatAyah?.padukuhan?.message}
                             >
-                                <Input id="alamatAyah.padukuhan" {...register("alamatAyah.padukuhan")} />
+                                <Controller
+                                    name="alamatAyah.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatAyah.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">
                                 <Field
@@ -216,7 +239,17 @@ export default function KelahiranFormPage() {
                                 htmlFor="alamatIbu.padukuhan"
                                 error={errors.alamatIbu?.padukuhan?.message}
                             >
-                                <Input id="alamatIbu.padukuhan" {...register("alamatIbu.padukuhan")} />
+                                <Controller
+                                    name="alamatIbu.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatIbu.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">
                                 <Field
@@ -402,9 +435,16 @@ export default function KelahiranFormPage() {
                                 htmlFor="alamatPelapor.padukuhan"
                                 error={errors.alamatPelapor?.padukuhan?.message}
                             >
-                                <Input
-                                    id="alamatPelapor.padukuhan"
-                                    {...register("alamatPelapor.padukuhan")}
+                                <Controller
+                                    name="alamatPelapor.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatPelapor.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
                                 />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">

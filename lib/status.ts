@@ -15,6 +15,13 @@ export const STATUS_DESKRIPSI: Record<StatusPengajuan, string> = {
         "Pengajuan Anda ditolak. Silakan hubungi kantor Kalurahan Sidoharjo untuk informasi lebih lanjut.",
 };
 
+export const STATUS_OPTIONS: StatusPengajuan[] = [
+    "menunggu",
+    "diproses",
+    "selesai",
+    "ditolak",
+];
+
 export const STATUS_BADGE_VARIANT: Record<
     StatusPengajuan,
     "outline" | "secondary" | "default" | "destructive"

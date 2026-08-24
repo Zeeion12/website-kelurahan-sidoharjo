@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PADUKUHAN_SIDOHARJO } from "@/config/padukuhan";
 
 export const nikSchema = z
     .string()
@@ -19,8 +20,10 @@ export const statusPerkawinanSchema = z.enum(
     "Status perkawinan wajib dipilih"
 );
 
+export const padukuhanSchema = z.enum(PADUKUHAN_SIDOHARJO, "Padukuhan wajib dipilih");
+
 export const alamatSchema = z.object({
-    padukuhan: z.string().min(1, "Padukuhan wajib diisi"),
+    padukuhan: padukuhanSchema,
     rt: z.string().regex(/^\d{1,2}$/, "RT harus berupa angka"),
     rw: z.string().regex(/^\d{1,2}$/, "RW harus berupa angka"),
 });

@@ -18,6 +18,7 @@ import { Field } from "@/components/forms/field";
 import { FormSection } from "@/components/forms/form-section";
 import { TicketResult } from "@/components/forms/ticket-result";
 import { JenisKelaminRadio } from "@/components/forms/jenis-kelamin-radio";
+import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
 import {
     lahirMatiSchema,
     type LahirMatiFormInput,
@@ -41,11 +42,19 @@ export default function LahirMatiFormPage() {
             namaAyah: "",
             nikAyah: "",
             pekerjaanAyah: "",
-            alamatAyah: { padukuhan: "", rt: "", rw: "" },
+            alamatAyah: {
+                padukuhan: "" as LahirMatiFormInput["alamatAyah"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
             namaIbu: "",
             nikIbu: "",
             pekerjaanIbu: "",
-            alamatIbu: { padukuhan: "", rt: "", rw: "" },
+            alamatIbu: {
+                padukuhan: "" as LahirMatiFormInput["alamatIbu"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
             tanggalPerkawinan: "",
             jenisKelaminAnak: "" as LahirMatiFormInput["jenisKelaminAnak"],
             lamanyaDalamKandunganBulan: 0,
@@ -59,7 +68,11 @@ export default function LahirMatiFormPage() {
             namaPelapor: "",
             nikPelapor: "",
             pekerjaanPelapor: "",
-            alamatPelapor: { padukuhan: "", rt: "", rw: "" },
+            alamatPelapor: {
+                padukuhan: "" as LahirMatiFormInput["alamatPelapor"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
         },
     });
 
@@ -115,7 +128,17 @@ export default function LahirMatiFormPage() {
                                 htmlFor="alamatAyah.padukuhan"
                                 error={errors.alamatAyah?.padukuhan?.message}
                             >
-                                <Input id="alamatAyah.padukuhan" {...register("alamatAyah.padukuhan")} />
+                                <Controller
+                                    name="alamatAyah.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatAyah.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">
                                 <Field
@@ -181,7 +204,17 @@ export default function LahirMatiFormPage() {
                                 htmlFor="alamatIbu.padukuhan"
                                 error={errors.alamatIbu?.padukuhan?.message}
                             >
-                                <Input id="alamatIbu.padukuhan" {...register("alamatIbu.padukuhan")} />
+                                <Controller
+                                    name="alamatIbu.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatIbu.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">
                                 <Field
@@ -405,9 +438,16 @@ export default function LahirMatiFormPage() {
                                 htmlFor="alamatPelapor.padukuhan"
                                 error={errors.alamatPelapor?.padukuhan?.message}
                             >
-                                <Input
-                                    id="alamatPelapor.padukuhan"
-                                    {...register("alamatPelapor.padukuhan")}
+                                <Controller
+                                    name="alamatPelapor.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatPelapor.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
                                 />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">

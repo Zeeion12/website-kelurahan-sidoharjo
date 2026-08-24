@@ -15,30 +15,18 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { getJenisSuratById } from "@/config/jenis-surat";
-import { getPengajuanByTiket } from "@/lib/pengajuan-store";
+import { formatTanggal } from "@/lib/format";
+import { usePengajuanByTiket } from "@/lib/use-pengajuan-store";
 import { STATUS_BADGE_VARIANT, STATUS_DESKRIPSI, STATUS_LABEL } from "@/lib/status";
-import type { Pengajuan } from "@/types/pengajuan";
-
-function formatTanggal(iso: string) {
-    return new Date(iso).toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    });
-}
 
 function StatusChecker() {
     const searchParams = useSearchParams();
     const tiketDariUrl = searchParams.get("tiket") ?? "";
     const [nomorTiket, setNomorTiket] = useState(tiketDariUrl);
-    // undefined = belum mencari, null = sudah mencari tapi tidak ditemukan
-    const [hasil, setHasil] = useState<Pengajuan | null | undefined>(undefined);
+    const [tiketDicari, setTiketDicari] = useState(tiketDariUrl.trim());
 
-    function cariTiket(tiket: string) {
-        const trimmed = tiket.trim();
-        if (!trimmed) return;
-        setHasil(getPengajuanByTiket(trimmed) ?? null);
-    }
+    // undefined = belum mencari (tiket kosong), null = dicari tapi tidak ditemukan
+    const hasil = usePengajuanByTiket(tiketDicari);
 
     return (
         <div className="mx-auto w-full max-w-xl px-4 py-12">
@@ -56,7 +44,7 @@ function StatusChecker() {
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
-                            cariTiket(nomorTiket);
+                            setTiketDicari(nomorTiket.trim());
                         }}
                         className="flex flex-col gap-3 sm:flex-row sm:items-end"
                     >
@@ -74,12 +62,6 @@ function StatusChecker() {
                             Cek Status
                         </Button>
                     </form>
-                    {tiketDariUrl && hasil === undefined && (
-                        <p className="mt-2 text-xs text-muted-foreground">
-                            Nomor tiket sudah terisi otomatis. Klik &quot;Cek Status&quot; untuk
-                            melihat detailnya.
-                        </p>
-                    )}
                 </CardContent>
             </Card>
 

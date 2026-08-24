@@ -16,6 +16,7 @@ import {
 import { Field } from "@/components/forms/field";
 import { FormSection } from "@/components/forms/form-section";
 import { TicketResult } from "@/components/forms/ticket-result";
+import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
 import { kematianSchema, type KematianFormValues } from "@/lib/validations/kematian.schema";
 import { getJenisSuratById } from "@/config/jenis-surat";
 import { generateNomorTiket } from "@/lib/generate-tiket";
@@ -43,7 +44,11 @@ export default function KematianFormPage() {
             namaPelapor: "",
             nikPelapor: "",
             pekerjaanPelapor: "",
-            alamatPelapor: { padukuhan: "", rt: "", rw: "" },
+            alamatPelapor: {
+                padukuhan: "" as KematianFormValues["alamatPelapor"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
         },
     });
 
@@ -213,9 +218,16 @@ export default function KematianFormPage() {
                                 htmlFor="alamatPelapor.padukuhan"
                                 error={errors.alamatPelapor?.padukuhan?.message}
                             >
-                                <Input
-                                    id="alamatPelapor.padukuhan"
-                                    {...register("alamatPelapor.padukuhan")}
+                                <Controller
+                                    name="alamatPelapor.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatPelapor.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
                                 />
                             </Field>
                             <div className="grid grid-cols-2 gap-4">
