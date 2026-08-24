@@ -35,3 +35,7 @@ export const kelahiranSchema = z.object({
 });
 
 export type KelahiranFormValues = z.infer<typeof kelahiranSchema>;
+// Bentuk sebelum divalidasi/di-coerce oleh zod (mis. anakKe & beratBayiKg
+// masih boleh berupa string dari <input>) — dipakai sebagai tipe generik
+// useForm supaya cocok dengan zodResolver.
+export type KelahiranFormInput = z.input<typeof kelahiranSchema>;

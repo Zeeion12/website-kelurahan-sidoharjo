@@ -29,3 +29,6 @@ export const lahirMatiSchema = z.object({
 });
 
 export type LahirMatiFormValues = z.infer<typeof lahirMatiSchema>;
+// Bentuk sebelum divalidasi/di-coerce oleh zod (lihat catatan yang sama di
+// kelahiran.schema.ts) — dipakai sebagai tipe generik useForm.
+export type LahirMatiFormInput = z.input<typeof lahirMatiSchema>;

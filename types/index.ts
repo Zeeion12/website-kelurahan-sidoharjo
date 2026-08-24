@@ -11,6 +11,7 @@ export type JenisSuratId =
 
 export interface JenisSuratConfig {
     id: JenisSuratId;
+    kode: string;
     nama: string;
     deskripsi: string;
     persyaratan: string[];

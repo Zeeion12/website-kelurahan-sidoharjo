@@ -3,6 +3,7 @@ import type { JenisSuratConfig, JenisSuratId } from "@/types";
 export const JENIS_SURAT: JenisSuratConfig[] = [
     {
         id: "kelahiran",
+        kode: "KLH",
         nama: "Surat Keterangan Kelahiran",
         deskripsi: "Pelaporan kelahiran anak untuk pencatatan sipil (formulir F-2.01).",
         persyaratan: [
@@ -16,6 +17,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
     },
     {
         id: "lahir-mati",
+        kode: "LHM",
         nama: "Surat Keterangan Lahir Mati",
         deskripsi: "Pelaporan kelahiran bayi dalam keadaan meninggal (formulir F-2.01).",
         persyaratan: [
@@ -28,6 +30,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
     },
     {
         id: "kematian",
+        kode: "KTN",
         nama: "Surat Keterangan Kematian",
         deskripsi: "Pelaporan kematian warga untuk pencatatan sipil (formulir F-2.01).",
         persyaratan: [
@@ -40,6 +43,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
     },
     {
         id: "sku",
+        kode: "SKU",
         nama: "Surat Keterangan Usaha",
         deskripsi: "Keterangan bahwa warga benar memiliki usaha di wilayah Kalurahan Sidoharjo.",
         persyaratan: ["KTP pemohon", "Kartu Keluarga pemohon"],
@@ -48,6 +52,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
     },
     {
         id: "keterangan-tidak-mampu",
+        kode: "SKTM",
         nama: "Surat Keterangan Tidak Mampu",
         deskripsi:
             "Keterangan kondisi ekonomi kurang mampu, umumnya untuk keperluan pendidikan/beasiswa.",
@@ -61,6 +66,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
     },
     {
         id: "izin-usaha",
+        kode: "SIU",
         nama: "Surat Izin Usaha",
         deskripsi: "Belum tersedia — menunggu contoh format resmi dari Kelurahan.",
         persyaratan: [],
@@ -69,6 +75,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
     },
     {
         id: "pindah-domisili",
+        kode: "SKPD",
         nama: "Surat Keterangan Pindah Domisili",
         deskripsi: "Belum tersedia — menunggu contoh format resmi dari Kelurahan.",
         persyaratan: [],
