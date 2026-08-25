@@ -20,13 +20,13 @@ import { JenisKelaminRadio } from "@/components/forms/jenis-kelamin-radio";
 import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
 import { skuSchema, type SkuFormValues } from "@/lib/validations/sku.schema";
 import { getJenisSuratById } from "@/config/jenis-surat";
-import { generateNomorTiket } from "@/lib/generate-tiket";
-import { savePengajuan } from "@/lib/pengajuan-store";
+import { savePengajuan } from "@/lib/pengajuan-client";
 
 const jenisSurat = getJenisSuratById("sku")!;
 
 export default function SkuFormPage() {
     const [nomorTiket, setNomorTiket] = useState<string | null>(null);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const {
         register,
         control,
@@ -52,13 +52,13 @@ export default function SkuFormPage() {
     });
 
     async function onSubmit(values: SkuFormValues) {
-        // TODO: ganti simulasi ini dengan insert ke tabel `pengajuan` di Supabase
-        // setelah tabelnya dibuat, lalu pakai nomor tiket dari database. Untuk
-        // sementara data disimpan di localStorage lewat lib/pengajuan-store.ts.
-        await new Promise((resolve) => setTimeout(resolve, 400));
-        const tiket = generateNomorTiket("sku");
-        savePengajuan({ jenis_surat: "sku", nomor_tiket: tiket, data: values });
-        setNomorTiket(tiket);
+        setSubmitError(null);
+        try {
+            const nomorTiket = await savePengajuan({ jenisSurat: "sku", data: values });
+            setNomorTiket(nomorTiket);
+        } catch {
+            setSubmitError("Gagal mengirim pengajuan. Periksa koneksi internet Anda dan coba lagi.");
+        }
     }
 
     if (nomorTiket) {
@@ -220,6 +220,7 @@ export default function SkuFormPage() {
                             </Field>
                         </FormSection>
 
+                        {submitError && <p className="text-sm text-destructive">{submitError}</p>}
                         <Button type="submit" size="lg" disabled={isSubmitting}>
                             {isSubmitting ? "Mengirim..." : "Kirim Pengajuan"}
                         </Button>

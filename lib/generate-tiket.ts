@@ -2,9 +2,9 @@ import { getJenisSuratById } from "@/config/jenis-surat";
 import type { JenisSuratId } from "@/types";
 
 /**
- * Nomor tiket sementara di sisi klien (belum ada penomoran urut dari Supabase
- * karena tabel `pengajuan` belum dibuat). Format: KODE-YYMMDD-XXXX.
- * Ganti dengan nomor urut dari database begitu backend-nya siap.
+ * Format: KODE-YYMMDD-XXXX. Dibuat di sisi klien lalu diinsert ke Supabase;
+ * kalau kebetulan bentrok dengan tiket lain (constraint unique), pemanggil
+ * (lib/pengajuan-client.ts) akan memanggil ini lagi untuk dapat nomor baru.
  */
 export function generateNomorTiket(jenisSurat: JenisSuratId): string {
     const kode = getJenisSuratById(jenisSurat)?.kode ?? "SRT";

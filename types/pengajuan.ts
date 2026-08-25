@@ -12,4 +12,17 @@ export interface Pengajuan {
     selesai_at: string | null;
 }
 
-export type PengajuanInsert = Pick<Pengajuan, "jenis_surat" | "data" | "nomor_tiket">;
+export interface PengajuanInput {
+    jenisSurat: JenisSuratId;
+    data: Record<string, unknown>;
+}
+
+/** Bentuk yang dibalikkan fungsi RPC `cek_status_pengajuan` -- tanpa `id`/`data` pribadi. */
+export interface PengajuanStatusPublik {
+    nomor_tiket: string;
+    jenis_surat: JenisSuratId;
+    status: StatusPengajuan;
+    catatan_petugas: string | null;
+    created_at: string;
+    selesai_at: string | null;
+}

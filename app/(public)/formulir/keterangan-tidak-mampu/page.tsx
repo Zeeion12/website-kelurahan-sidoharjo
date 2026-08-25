@@ -23,13 +23,13 @@ import {
     type KeteranganTidakMampuFormValues,
 } from "@/lib/validations/keterangan-tidak-mampu.schema";
 import { getJenisSuratById } from "@/config/jenis-surat";
-import { generateNomorTiket } from "@/lib/generate-tiket";
-import { savePengajuan } from "@/lib/pengajuan-store";
+import { savePengajuan } from "@/lib/pengajuan-client";
 
 const jenisSurat = getJenisSuratById("keterangan-tidak-mampu")!;
 
 export default function KeteranganTidakMampuFormPage() {
     const [nomorTiket, setNomorTiket] = useState<string | null>(null);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const {
         register,
         control,
@@ -61,17 +61,16 @@ export default function KeteranganTidakMampuFormPage() {
     });
 
     async function onSubmit(values: KeteranganTidakMampuFormValues) {
-        // TODO: ganti simulasi ini dengan insert ke tabel `pengajuan` di Supabase
-        // setelah tabelnya dibuat, lalu pakai nomor tiket dari database. Untuk
-        // sementara data disimpan di localStorage lewat lib/pengajuan-store.ts.
-        await new Promise((resolve) => setTimeout(resolve, 400));
-        const tiket = generateNomorTiket("keterangan-tidak-mampu");
-        savePengajuan({
-            jenis_surat: "keterangan-tidak-mampu",
-            nomor_tiket: tiket,
-            data: values,
-        });
-        setNomorTiket(tiket);
+        setSubmitError(null);
+        try {
+            const nomorTiket = await savePengajuan({
+                jenisSurat: "keterangan-tidak-mampu",
+                data: values,
+            });
+            setNomorTiket(nomorTiket);
+        } catch {
+            setSubmitError("Gagal mengirim pengajuan. Periksa koneksi internet Anda dan coba lagi.");
+        }
     }
 
     if (nomorTiket) {
@@ -327,6 +326,7 @@ export default function KeteranganTidakMampuFormPage() {
                             </Field>
                         </FormSection>
 
+                        {submitError && <p className="text-sm text-destructive">{submitError}</p>}
                         <Button type="submit" size="lg" disabled={isSubmitting}>
                             {isSubmitting ? "Mengirim..." : "Kirim Pengajuan"}
                         </Button>

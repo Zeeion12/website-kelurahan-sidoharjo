@@ -1,7 +1,3 @@
-"use client";
-
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,17 +12,18 @@ import {
 } from "@/components/ui/card";
 import { getJenisSuratById } from "@/config/jenis-surat";
 import { formatTanggal } from "@/lib/format";
-import { usePengajuanByTiket } from "@/lib/use-pengajuan-store";
+import { cekStatusPengajuan } from "@/lib/pengajuan-server";
 import { STATUS_BADGE_VARIANT, STATUS_DESKRIPSI, STATUS_LABEL } from "@/lib/status";
 
-function StatusChecker() {
-    const searchParams = useSearchParams();
-    const tiketDariUrl = searchParams.get("tiket") ?? "";
-    const [nomorTiket, setNomorTiket] = useState(tiketDariUrl);
-    const [tiketDicari, setTiketDicari] = useState(tiketDariUrl.trim());
-
+export default async function StatusPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ tiket?: string }>;
+}) {
+    const { tiket } = await searchParams;
+    const nomorTiket = tiket?.trim() ?? "";
     // undefined = belum mencari (tiket kosong), null = dicari tapi tidak ditemukan
-    const hasil = usePengajuanByTiket(tiketDicari);
+    const hasil = nomorTiket ? await cekStatusPengajuan(nomorTiket) : undefined;
 
     return (
         <div className="mx-auto w-full max-w-xl px-4 py-12">
@@ -42,19 +39,16 @@ function StatusChecker() {
             <Card>
                 <CardContent className="pt-6">
                     <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            setTiketDicari(nomorTiket.trim());
-                        }}
+                        action="/status"
                         className="flex flex-col gap-3 sm:flex-row sm:items-end"
                     >
                         <div className="flex flex-1 flex-col gap-1.5">
-                            <Label htmlFor="nomorTiket">Nomor Tiket</Label>
+                            <Label htmlFor="tiket">Nomor Tiket</Label>
                             <Input
-                                id="nomorTiket"
+                                id="tiket"
+                                name="tiket"
                                 placeholder="Contoh: SKU-260824-1234"
-                                value={nomorTiket}
-                                onChange={(e) => setNomorTiket(e.target.value)}
+                                defaultValue={nomorTiket}
                             />
                         </div>
                         <Button type="submit">
@@ -102,13 +96,5 @@ function StatusChecker() {
                 </Card>
             )}
         </div>
-    );
-}
-
-export default function StatusPage() {
-    return (
-        <Suspense fallback={null}>
-            <StatusChecker />
-        </Suspense>
     );
 }

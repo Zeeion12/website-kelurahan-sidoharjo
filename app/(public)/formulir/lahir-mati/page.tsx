@@ -24,13 +24,13 @@ import {
     type LahirMatiFormInput,
 } from "@/lib/validations/lahir-mati.schema";
 import { getJenisSuratById } from "@/config/jenis-surat";
-import { generateNomorTiket } from "@/lib/generate-tiket";
-import { savePengajuan } from "@/lib/pengajuan-store";
+import { savePengajuan } from "@/lib/pengajuan-client";
 
 const jenisSurat = getJenisSuratById("lahir-mati")!;
 
 export default function LahirMatiFormPage() {
     const [nomorTiket, setNomorTiket] = useState<string | null>(null);
+    const [submitError, setSubmitError] = useState<string | null>(null);
     const {
         register,
         control,
@@ -77,13 +77,13 @@ export default function LahirMatiFormPage() {
     });
 
     async function onSubmit(values: LahirMatiFormInput) {
-        // TODO: ganti simulasi ini dengan insert ke tabel `pengajuan` di Supabase
-        // setelah tabelnya dibuat, lalu pakai nomor tiket dari database. Untuk
-        // sementara data disimpan di localStorage lewat lib/pengajuan-store.ts.
-        await new Promise((resolve) => setTimeout(resolve, 400));
-        const tiket = generateNomorTiket("lahir-mati");
-        savePengajuan({ jenis_surat: "lahir-mati", nomor_tiket: tiket, data: values });
-        setNomorTiket(tiket);
+        setSubmitError(null);
+        try {
+            const nomorTiket = await savePengajuan({ jenisSurat: "lahir-mati", data: values });
+            setNomorTiket(nomorTiket);
+        } catch {
+            setSubmitError("Gagal mengirim pengajuan. Periksa koneksi internet Anda dan coba lagi.");
+        }
     }
 
     if (nomorTiket) {
@@ -478,6 +478,7 @@ export default function LahirMatiFormPage() {
                             </div>
                         </FormSection>
 
+                        {submitError && <p className="text-sm text-destructive">{submitError}</p>}
                         <Button type="submit" size="lg" disabled={isSubmitting}>
                             {isSubmitting ? "Mengirim..." : "Kirim Pengajuan"}
                         </Button>
