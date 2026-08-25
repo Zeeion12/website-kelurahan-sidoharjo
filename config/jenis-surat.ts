@@ -68,7 +68,8 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
         id: "izin-usaha",
         kode: "SIU",
         nama: "Surat Izin Usaha",
-        deskripsi: "Belum tersedia — menunggu contoh format resmi dari Kelurahan.",
+        deskripsi:
+            "Belum tersedia — Kalurahan tidak menerbitkan izin usaha (ranah OSS/DPMPT). Kemungkinan besar sama dengan Surat Keterangan Usaha; menunggu konfirmasi Kelurahan.",
         persyaratan: [],
         estimasiHari: 0,
         tersedia: false,
@@ -77,10 +78,11 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
         id: "pindah-domisili",
         kode: "SKPD",
         nama: "Surat Keterangan Pindah Domisili",
-        deskripsi: "Belum tersedia — menunggu contoh format resmi dari Kelurahan.",
-        persyaratan: [],
-        estimasiHari: 0,
-        tersedia: false,
+        deskripsi:
+            "Formulir F-1.03 Dukcapil. Isi datanya di sini untuk dicetak dan dibawa ke Dukcapil — penanda tangan resminya Kepala Dinas Dukcapil, bukan Lurah.",
+        persyaratan: ["Kartu Keluarga", "KTP pemohon", "Data anggota keluarga yang ikut pindah"],
+        estimasiHari: 1,
+        tersedia: true,
     },
 ];
 

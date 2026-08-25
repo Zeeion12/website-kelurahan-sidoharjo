@@ -20,6 +20,7 @@ import { FormSection } from "@/components/forms/form-section";
 import { TicketResult } from "@/components/forms/ticket-result";
 import { JenisKelaminRadio } from "@/components/forms/jenis-kelamin-radio";
 import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
+import { KewarganegaraanRadio } from "@/components/forms/kewarganegaraan-radio";
 import {
     kelahiranSchema,
     type KelahiranFormInput,
@@ -43,6 +44,10 @@ export default function KelahiranFormPage() {
             laporanKelahiran: "" as KelahiranFormInput["laporanKelahiran"],
             namaAyah: "",
             nikAyah: "",
+            tempatLahirAyah: "",
+            tanggalLahirAyah: "",
+            umurAyah: 0,
+            kewarganegaraanAyah: "wni",
             pekerjaanAyah: "",
             alamatAyah: {
                 padukuhan: "" as KelahiranFormInput["alamatAyah"]["padukuhan"],
@@ -51,15 +56,22 @@ export default function KelahiranFormPage() {
             },
             namaIbu: "",
             nikIbu: "",
+            tempatLahirIbu: "",
+            tanggalLahirIbu: "",
+            umurIbu: 0,
+            kewarganegaraanIbu: "wni",
             pekerjaanIbu: "",
             alamatIbu: {
                 padukuhan: "" as KelahiranFormInput["alamatIbu"]["padukuhan"],
                 rt: "",
                 rw: "",
             },
+            tempatPerkawinan: "" as KelahiranFormInput["tempatPerkawinan"],
             tanggalPerkawinan: "",
             namaAnak: "",
+            nikAnak: "",
             jenisKelaminAnak: "" as KelahiranFormInput["jenisKelaminAnak"],
+            tempatDilahirkan: "" as KelahiranFormInput["tempatDilahirkan"],
             tempatLahir: "",
             tanggalLahir: "",
             jamLahir: "",
@@ -70,14 +82,17 @@ export default function KelahiranFormPage() {
             panjangBayiCm: 0,
             namaPelapor: "",
             nikPelapor: "",
+            noKKPelapor: "",
+            umurPelapor: 0,
+            kewarganegaraanPelapor: "wni",
             pekerjaanPelapor: "",
             alamatPelapor: {
                 padukuhan: "" as KelahiranFormInput["alamatPelapor"]["padukuhan"],
                 rt: "",
                 rw: "",
             },
-            saksi1: { nama: "", umur: 0, pekerjaan: "", alamat: "" },
-            saksi2: { nama: "", umur: 0, pekerjaan: "", alamat: "" },
+            saksi1: { nama: "", nik: "", noKK: "", kewarganegaraan: "wni", umur: 0, pekerjaan: "", alamat: "" },
+            saksi2: { nama: "", nik: "", noKK: "", kewarganegaraan: "wni", umur: 0, pekerjaan: "", alamat: "" },
         },
     });
 
@@ -151,6 +166,40 @@ export default function KelahiranFormPage() {
                                 />
                             </Field>
                             <Field
+                                label="Tempat Lahir Ayah"
+                                htmlFor="tempatLahirAyah"
+                                error={errors.tempatLahirAyah?.message}
+                            >
+                                <Input id="tempatLahirAyah" {...register("tempatLahirAyah")} />
+                            </Field>
+                            <Field
+                                label="Tanggal Lahir Ayah"
+                                htmlFor="tanggalLahirAyah"
+                                error={errors.tanggalLahirAyah?.message}
+                            >
+                                <Input id="tanggalLahirAyah" type="date" {...register("tanggalLahirAyah")} />
+                            </Field>
+                            <Field label="Umur Ayah" htmlFor="umurAyah" error={errors.umurAyah?.message}>
+                                <Input id="umurAyah" type="number" {...register("umurAyah")} />
+                            </Field>
+                            <Field
+                                label="Kewarganegaraan Ayah"
+                                htmlFor="kewarganegaraanAyah"
+                                error={errors.kewarganegaraanAyah?.message}
+                            >
+                                <Controller
+                                    name="kewarganegaraanAyah"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <KewarganegaraanRadio
+                                            id="kewarganegaraanAyah"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Field>
+                            <Field
                                 label="Pekerjaan Ayah"
                                 htmlFor="pekerjaanAyah"
                                 error={errors.pekerjaanAyah?.message}
@@ -216,24 +265,47 @@ export default function KelahiranFormPage() {
                                 />
                             </Field>
                             <Field
+                                label="Tempat Lahir Ibu"
+                                htmlFor="tempatLahirIbu"
+                                error={errors.tempatLahirIbu?.message}
+                            >
+                                <Input id="tempatLahirIbu" {...register("tempatLahirIbu")} />
+                            </Field>
+                            <Field
+                                label="Tanggal Lahir Ibu"
+                                htmlFor="tanggalLahirIbu"
+                                error={errors.tanggalLahirIbu?.message}
+                            >
+                                <Input id="tanggalLahirIbu" type="date" {...register("tanggalLahirIbu")} />
+                            </Field>
+                            <Field label="Umur Ibu" htmlFor="umurIbu" error={errors.umurIbu?.message}>
+                                <Input id="umurIbu" type="number" {...register("umurIbu")} />
+                            </Field>
+                            <Field
+                                label="Kewarganegaraan Ibu"
+                                htmlFor="kewarganegaraanIbu"
+                                error={errors.kewarganegaraanIbu?.message}
+                            >
+                                <Controller
+                                    name="kewarganegaraanIbu"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <KewarganegaraanRadio
+                                            id="kewarganegaraanIbu"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Field>
+                            <Field
                                 label="Pekerjaan Ibu"
                                 htmlFor="pekerjaanIbu"
                                 error={errors.pekerjaanIbu?.message}
                             >
                                 <Input id="pekerjaanIbu" {...register("pekerjaanIbu")} />
                             </Field>
-                            <Field
-                                label="Tanggal Perkawinan"
-                                htmlFor="tanggalPerkawinan"
-                                hint="Opsional"
-                                error={errors.tanggalPerkawinan?.message}
-                            >
-                                <Input
-                                    id="tanggalPerkawinan"
-                                    type="date"
-                                    {...register("tanggalPerkawinan")}
-                                />
-                            </Field>
+                            <div />
                             <Field
                                 label="Padukuhan"
                                 htmlFor="alamatIbu.padukuhan"
@@ -277,11 +349,59 @@ export default function KelahiranFormPage() {
                                     />
                                 </Field>
                             </div>
+                            <Field
+                                label="Tempat Perkawinan"
+                                htmlFor="tempatPerkawinan"
+                                hint="Opsional"
+                                error={errors.tempatPerkawinan?.message}
+                            >
+                                <Controller
+                                    name="tempatPerkawinan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger id="tempatPerkawinan" className="w-full">
+                                                <SelectValue placeholder="Pilih tempat perkawinan" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="kua">KUA</SelectItem>
+                                                <SelectItem value="gereja">Gereja</SelectItem>
+                                                <SelectItem value="pure">Pure</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                            </Field>
+                            <Field
+                                label="Tanggal Perkawinan"
+                                htmlFor="tanggalPerkawinan"
+                                hint="Opsional"
+                                error={errors.tanggalPerkawinan?.message}
+                            >
+                                <Input
+                                    id="tanggalPerkawinan"
+                                    type="date"
+                                    {...register("tanggalPerkawinan")}
+                                />
+                            </Field>
                         </FormSection>
 
                         <FormSection title="Data Anak">
                             <Field label="Nama Anak" htmlFor="namaAnak" error={errors.namaAnak?.message}>
                                 <Input id="namaAnak" {...register("namaAnak")} />
+                            </Field>
+                            <Field
+                                label="NIK Anak"
+                                htmlFor="nikAnak"
+                                hint="Opsional"
+                                error={errors.nikAnak?.message}
+                            >
+                                <Input
+                                    id="nikAnak"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    {...register("nikAnak")}
+                                />
                             </Field>
                             <Field
                                 label="Jenis Kelamin"
@@ -297,6 +417,30 @@ export default function KelahiranFormPage() {
                                             value={field.value}
                                             onChange={field.onChange}
                                         />
+                                    )}
+                                />
+                            </Field>
+                            <Field
+                                label="Tempat Dilahirkan"
+                                htmlFor="tempatDilahirkan"
+                                error={errors.tempatDilahirkan?.message}
+                            >
+                                <Controller
+                                    name="tempatDilahirkan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger id="tempatDilahirkan" className="w-full">
+                                                <SelectValue placeholder="Pilih tempat dilahirkan" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="rs-bidan">RS/Bidan</SelectItem>
+                                                <SelectItem value="puskesmas">Puskesmas</SelectItem>
+                                                <SelectItem value="polindes">Polindes</SelectItem>
+                                                <SelectItem value="rumah">Rumah</SelectItem>
+                                                <SelectItem value="lainnya">Lainnya</SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                     )}
                                 />
                             </Field>
@@ -423,13 +567,44 @@ export default function KelahiranFormPage() {
                                 />
                             </Field>
                             <Field
+                                label="Nomor KK Pelapor"
+                                htmlFor="noKKPelapor"
+                                error={errors.noKKPelapor?.message}
+                            >
+                                <Input
+                                    id="noKKPelapor"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    {...register("noKKPelapor")}
+                                />
+                            </Field>
+                            <Field label="Umur Pelapor" htmlFor="umurPelapor" error={errors.umurPelapor?.message}>
+                                <Input id="umurPelapor" type="number" {...register("umurPelapor")} />
+                            </Field>
+                            <Field
+                                label="Kewarganegaraan Pelapor"
+                                htmlFor="kewarganegaraanPelapor"
+                                error={errors.kewarganegaraanPelapor?.message}
+                            >
+                                <Controller
+                                    name="kewarganegaraanPelapor"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <KewarganegaraanRadio
+                                            id="kewarganegaraanPelapor"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Field>
+                            <Field
                                 label="Pekerjaan Pelapor"
                                 htmlFor="pekerjaanPelapor"
                                 error={errors.pekerjaanPelapor?.message}
                             >
                                 <Input id="pekerjaanPelapor" {...register("pekerjaanPelapor")} />
                             </Field>
-                            <div />
                             <Field
                                 label="Padukuhan"
                                 htmlFor="alamatPelapor.padukuhan"
@@ -483,6 +658,44 @@ export default function KelahiranFormPage() {
                             >
                                 <Input id="saksi1.nama" {...register("saksi1.nama")} />
                             </Field>
+                            <Field label="NIK" htmlFor="saksi1.nik" error={errors.saksi1?.nik?.message}>
+                                <Input
+                                    id="saksi1.nik"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    {...register("saksi1.nik")}
+                                />
+                            </Field>
+                            <Field
+                                label="Nomor KK"
+                                htmlFor="saksi1.noKK"
+                                hint="Opsional"
+                                error={errors.saksi1?.noKK?.message}
+                            >
+                                <Input
+                                    id="saksi1.noKK"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    {...register("saksi1.noKK")}
+                                />
+                            </Field>
+                            <Field
+                                label="Kewarganegaraan"
+                                htmlFor="saksi1.kewarganegaraan"
+                                error={errors.saksi1?.kewarganegaraan?.message}
+                            >
+                                <Controller
+                                    name="saksi1.kewarganegaraan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <KewarganegaraanRadio
+                                            id="saksi1.kewarganegaraan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Field>
                             <Field
                                 label="Umur"
                                 htmlFor="saksi1.umur"
@@ -513,6 +726,44 @@ export default function KelahiranFormPage() {
                                 error={errors.saksi2?.nama?.message}
                             >
                                 <Input id="saksi2.nama" {...register("saksi2.nama")} />
+                            </Field>
+                            <Field label="NIK" htmlFor="saksi2.nik" error={errors.saksi2?.nik?.message}>
+                                <Input
+                                    id="saksi2.nik"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    {...register("saksi2.nik")}
+                                />
+                            </Field>
+                            <Field
+                                label="Nomor KK"
+                                htmlFor="saksi2.noKK"
+                                hint="Opsional"
+                                error={errors.saksi2?.noKK?.message}
+                            >
+                                <Input
+                                    id="saksi2.noKK"
+                                    inputMode="numeric"
+                                    maxLength={16}
+                                    {...register("saksi2.noKK")}
+                                />
+                            </Field>
+                            <Field
+                                label="Kewarganegaraan"
+                                htmlFor="saksi2.kewarganegaraan"
+                                error={errors.saksi2?.kewarganegaraan?.message}
+                            >
+                                <Controller
+                                    name="saksi2.kewarganegaraan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <KewarganegaraanRadio
+                                            id="saksi2.kewarganegaraan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
                             </Field>
                             <Field
                                 label="Umur"

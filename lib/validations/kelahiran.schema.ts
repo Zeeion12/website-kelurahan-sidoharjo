@@ -4,6 +4,7 @@ import {
     dataPelaporSchema,
     dataSaksiSchema,
     jenisKelaminSchema,
+    tempatDilahirkanSchema,
 } from "./shared.schema";
 
 export const jenisKelahiranSchema = z.enum(
@@ -20,7 +21,9 @@ export const kelahiranSchema = z.object({
     laporanKelahiran: z.enum(["umum", "terlambat"], "Jenis laporan wajib dipilih"),
     ...dataOrangTuaSchema.shape,
     namaAnak: z.string().min(1, "Nama anak wajib diisi"),
+    nikAnak: z.string().regex(/^\d{16}$/, "NIK anak harus 16 digit angka").optional().or(z.literal("")),
     jenisKelaminAnak: jenisKelaminSchema,
+    tempatDilahirkan: tempatDilahirkanSchema,
     tempatLahir: z.string().min(1, "Tempat lahir wajib diisi"),
     tanggalLahir: z.iso.date("Tanggal lahir tidak valid"),
     jamLahir: z.string().min(1, "Jam lahir wajib diisi"),

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
     Select,
     SelectContent,
@@ -18,9 +18,10 @@ import { Field } from "@/components/forms/field";
 import { FormSection } from "@/components/forms/form-section";
 import { TicketResult } from "@/components/forms/ticket-result";
 import { JenisKelaminRadio } from "@/components/forms/jenis-kelamin-radio";
+import { PadukuhanSelect } from "@/components/forms/padukuhan-select";
 import {
     keteranganTidakMampuSchema,
-    type KeteranganTidakMampuFormValues,
+    type KeteranganTidakMampuFormInput,
 } from "@/lib/validations/keterangan-tidak-mampu.schema";
 import { getJenisSuratById } from "@/config/jenis-surat";
 import { savePengajuan } from "@/lib/pengajuan-client";
@@ -34,33 +35,44 @@ export default function KeteranganTidakMampuFormPage() {
         register,
         control,
         handleSubmit,
+        watch,
         formState: { errors, isSubmitting },
-    } = useForm<KeteranganTidakMampuFormValues>({
+    } = useForm<KeteranganTidakMampuFormInput>({
         resolver: zodResolver(keteranganTidakMampuSchema),
         defaultValues: {
             namaPemohon: "",
             ktpPemohon: "",
             kkPemohon: "",
+            jenisKelaminPemohon: "" as KeteranganTidakMampuFormInput["jenisKelaminPemohon"],
             tempatLahirPemohon: "",
             tanggalLahirPemohon: "",
-            jenisKelaminPemohon: "" as KeteranganTidakMampuFormValues["jenisKelaminPemohon"],
-            statusPerkawinanPemohon: "" as KeteranganTidakMampuFormValues["statusPerkawinanPemohon"],
+            agamaPemohon: "" as KeteranganTidakMampuFormInput["agamaPemohon"],
+            statusPerkawinanPemohon: "" as KeteranganTidakMampuFormInput["statusPerkawinanPemohon"],
             pekerjaanPemohon: "",
-            pendidikanTerakhirPemohon: "" as KeteranganTidakMampuFormValues["pendidikanTerakhirPemohon"],
-            agamaPemohon: "" as KeteranganTidakMampuFormValues["agamaPemohon"],
-            alamatPemohon: "",
+            pendidikanTerakhirPemohon: "" as KeteranganTidakMampuFormInput["pendidikanTerakhirPemohon"],
+            alamatPemohon: {
+                padukuhan: "" as KeteranganTidakMampuFormInput["alamatPemohon"]["padukuhan"],
+                rt: "",
+                rw: "",
+            },
+            keperluan: "" as KeteranganTidakMampuFormInput["keperluan"],
+            penghasilanPerBulan: undefined,
+            anggotaKeluarga: [],
             namaAnak: "",
             nikAnak: "",
             tempatLahirAnak: "",
             tanggalLahirAnak: "",
-            jenisKelaminAnak: "" as KeteranganTidakMampuFormValues["jenisKelaminAnak"],
+            jenisKelaminAnak: "" as KeteranganTidakMampuFormInput["jenisKelaminAnak"],
             namaSekolah: "",
             fakultasProdi: "",
             kelasSemester: "",
         },
     });
 
-    async function onSubmit(values: KeteranganTidakMampuFormValues) {
+    const { fields, append, remove } = useFieldArray({ control, name: "anggotaKeluarga" });
+    const keperluan = watch("keperluan");
+
+    async function onSubmit(values: KeteranganTidakMampuFormInput) {
         setSubmitError(null);
         try {
             const nomorTiket = await savePengajuan({
@@ -91,7 +103,7 @@ export default function KeteranganTidakMampuFormPage() {
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
                         <FormSection
-                            title="Data Pemohon (Orang Tua/Wali)"
+                            title="Data Pemohon"
                             description="Isi sesuai KTP yang berlaku."
                         >
                             <Field
@@ -126,6 +138,23 @@ export default function KeteranganTidakMampuFormPage() {
                                 />
                             </Field>
                             <Field
+                                label="Jenis Kelamin"
+                                htmlFor="jenisKelaminPemohon"
+                                error={errors.jenisKelaminPemohon?.message}
+                            >
+                                <Controller
+                                    name="jenisKelaminPemohon"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <JenisKelaminRadio
+                                            id="jenisKelaminPemohon"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Field>
+                            <Field
                                 label="Tempat Lahir"
                                 htmlFor="tempatLahirPemohon"
                                 error={errors.tempatLahirPemohon?.message}
@@ -143,20 +172,24 @@ export default function KeteranganTidakMampuFormPage() {
                                     {...register("tanggalLahirPemohon")}
                                 />
                             </Field>
-                            <Field
-                                label="Jenis Kelamin"
-                                htmlFor="jenisKelaminPemohon"
-                                error={errors.jenisKelaminPemohon?.message}
-                            >
+                            <Field label="Agama" htmlFor="agamaPemohon" error={errors.agamaPemohon?.message}>
                                 <Controller
-                                    name="jenisKelaminPemohon"
+                                    name="agamaPemohon"
                                     control={control}
                                     render={({ field }) => (
-                                        <JenisKelaminRadio
-                                            id="jenisKelaminPemohon"
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger id="agamaPemohon" className="w-full">
+                                                <SelectValue placeholder="Pilih agama" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="islam">Islam</SelectItem>
+                                                <SelectItem value="kristen">Kristen</SelectItem>
+                                                <SelectItem value="katholik">Katholik</SelectItem>
+                                                <SelectItem value="hindu">Hindu</SelectItem>
+                                                <SelectItem value="buddha">Buddha</SelectItem>
+                                                <SelectItem value="konghucu">Konghucu</SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                     )}
                                 />
                             </Field>
@@ -193,6 +226,7 @@ export default function KeteranganTidakMampuFormPage() {
                             <Field
                                 label="Pendidikan Terakhir"
                                 htmlFor="pendidikanTerakhirPemohon"
+                                hint="Opsional"
                                 error={errors.pendidikanTerakhirPemohon?.message}
                             >
                                 <Controller
@@ -219,45 +253,190 @@ export default function KeteranganTidakMampuFormPage() {
                                     )}
                                 />
                             </Field>
-                            <Field label="Agama" htmlFor="agamaPemohon" error={errors.agamaPemohon?.message}>
+                        </FormSection>
+
+                        <FormSection title="Alamat Pemohon">
+                            <Field
+                                label="Padukuhan"
+                                htmlFor="alamatPemohon.padukuhan"
+                                error={errors.alamatPemohon?.padukuhan?.message}
+                            >
                                 <Controller
-                                    name="agamaPemohon"
+                                    name="alamatPemohon.padukuhan"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <PadukuhanSelect
+                                            id="alamatPemohon.padukuhan"
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Field>
+                            <div className="grid grid-cols-2 gap-4">
+                                <Field
+                                    label="RT"
+                                    htmlFor="alamatPemohon.rt"
+                                    error={errors.alamatPemohon?.rt?.message}
+                                >
+                                    <Input
+                                        id="alamatPemohon.rt"
+                                        inputMode="numeric"
+                                        maxLength={2}
+                                        {...register("alamatPemohon.rt")}
+                                    />
+                                </Field>
+                                <Field
+                                    label="RW"
+                                    htmlFor="alamatPemohon.rw"
+                                    error={errors.alamatPemohon?.rw?.message}
+                                >
+                                    <Input
+                                        id="alamatPemohon.rw"
+                                        inputMode="numeric"
+                                        maxLength={2}
+                                        {...register("alamatPemohon.rw")}
+                                    />
+                                </Field>
+                            </div>
+                        </FormSection>
+
+                        <FormSection
+                            title="Keperluan"
+                            description="Untuk keperluan apa surat ini diajukan."
+                        >
+                            <Field label="Keperluan" htmlFor="keperluan" error={errors.keperluan?.message}>
+                                <Controller
+                                    name="keperluan"
                                     control={control}
                                     render={({ field }) => (
                                         <Select value={field.value} onValueChange={field.onChange}>
-                                            <SelectTrigger id="agamaPemohon" className="w-full">
-                                                <SelectValue placeholder="Pilih agama" />
+                                            <SelectTrigger id="keperluan" className="w-full">
+                                                <SelectValue placeholder="Pilih keperluan" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="islam">Islam</SelectItem>
-                                                <SelectItem value="kristen">Kristen</SelectItem>
-                                                <SelectItem value="katholik">Katholik</SelectItem>
-                                                <SelectItem value="hindu">Hindu</SelectItem>
-                                                <SelectItem value="buddha">Buddha</SelectItem>
-                                                <SelectItem value="konghucu">Konghucu</SelectItem>
+                                                <SelectItem value="kis-bpjs-pbi">KIS/BPJS PBI</SelectItem>
+                                                <SelectItem value="beasiswa">Beasiswa</SelectItem>
+                                                <SelectItem value="lainnya">Lainnya</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     )}
                                 />
                             </Field>
-                            <Field
-                                label="Alamat"
-                                htmlFor="alamatPemohon"
-                                error={errors.alamatPemohon?.message}
-                                className="sm:col-span-2"
-                            >
-                                <Textarea id="alamatPemohon" rows={2} {...register("alamatPemohon")} />
-                            </Field>
+                            {keperluan === "kis-bpjs-pbi" && (
+                                <Field
+                                    label="Penghasilan per Bulan (Rp)"
+                                    htmlFor="penghasilanPerBulan"
+                                    error={errors.penghasilanPerBulan?.message}
+                                >
+                                    <Input
+                                        id="penghasilanPerBulan"
+                                        type="number"
+                                        {...register("penghasilanPerBulan")}
+                                    />
+                                </Field>
+                            )}
                         </FormSection>
 
                         <FormSection
-                            title="Data Anak"
-                            description="Anak/tanggungan yang diajukan untuk keperluan surat ini."
+                            title="Anggota Keluarga"
+                            description="Opsional -- tambahkan jika diperlukan untuk lampiran rekomendasi kepesertaan."
                         >
-                            <Field label="Nama Anak" htmlFor="namaAnak" error={errors.namaAnak?.message}>
+                            <div className="flex flex-col gap-4 sm:col-span-2">
+                                {fields.map((field, index) => (
+                                    <div
+                                        key={field.id}
+                                        className="grid grid-cols-1 gap-4 rounded-md border border-border p-3 sm:grid-cols-2"
+                                    >
+                                        <Field
+                                            label="Nama"
+                                            htmlFor={`anggotaKeluarga.${index}.nama`}
+                                            error={errors.anggotaKeluarga?.[index]?.nama?.message}
+                                        >
+                                            <Input
+                                                id={`anggotaKeluarga.${index}.nama`}
+                                                {...register(`anggotaKeluarga.${index}.nama`)}
+                                            />
+                                        </Field>
+                                        <Field
+                                            label="NIK"
+                                            htmlFor={`anggotaKeluarga.${index}.nik`}
+                                            error={errors.anggotaKeluarga?.[index]?.nik?.message}
+                                        >
+                                            <Input
+                                                id={`anggotaKeluarga.${index}.nik`}
+                                                inputMode="numeric"
+                                                maxLength={16}
+                                                {...register(`anggotaKeluarga.${index}.nik`)}
+                                            />
+                                        </Field>
+                                        <Field
+                                            label="Hubungan Keluarga"
+                                            htmlFor={`anggotaKeluarga.${index}.hubunganKeluarga`}
+                                            error={errors.anggotaKeluarga?.[index]?.hubunganKeluarga?.message}
+                                        >
+                                            <Input
+                                                id={`anggotaKeluarga.${index}.hubunganKeluarga`}
+                                                placeholder="Contoh: Anak, Istri"
+                                                {...register(`anggotaKeluarga.${index}.hubunganKeluarga`)}
+                                            />
+                                        </Field>
+                                        <Field
+                                            label="Keterangan"
+                                            htmlFor={`anggotaKeluarga.${index}.keterangan`}
+                                            hint="Opsional"
+                                            error={errors.anggotaKeluarga?.[index]?.keterangan?.message}
+                                        >
+                                            <Input
+                                                id={`anggotaKeluarga.${index}.keterangan`}
+                                                {...register(`anggotaKeluarga.${index}.keterangan`)}
+                                            />
+                                        </Field>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            className="sm:col-span-2 sm:w-fit"
+                                            onClick={() => remove(index)}
+                                        >
+                                            <Trash2 />
+                                            Hapus Anggota
+                                        </Button>
+                                    </div>
+                                ))}
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-fit"
+                                    onClick={() =>
+                                        append({ nama: "", nik: "", hubunganKeluarga: "", keterangan: "" })
+                                    }
+                                >
+                                    <Plus />
+                                    Tambah Anggota Keluarga
+                                </Button>
+                            </div>
+                        </FormSection>
+
+                        <FormSection
+                            title="Data Anak (Opsional)"
+                            description="Isi hanya jika surat ini untuk keperluan sekolah/kuliah anak."
+                        >
+                            <Field
+                                label="Nama Anak"
+                                htmlFor="namaAnak"
+                                hint="Opsional"
+                                error={errors.namaAnak?.message}
+                            >
                                 <Input id="namaAnak" {...register("namaAnak")} />
                             </Field>
-                            <Field label="NIK Anak" htmlFor="nikAnak" error={errors.nikAnak?.message}>
+                            <Field
+                                label="NIK Anak"
+                                htmlFor="nikAnak"
+                                hint="Opsional"
+                                error={errors.nikAnak?.message}
+                            >
                                 <Input
                                     id="nikAnak"
                                     inputMode="numeric"
@@ -268,6 +447,7 @@ export default function KeteranganTidakMampuFormPage() {
                             <Field
                                 label="Tempat Lahir Anak"
                                 htmlFor="tempatLahirAnak"
+                                hint="Opsional"
                                 error={errors.tempatLahirAnak?.message}
                             >
                                 <Input id="tempatLahirAnak" {...register("tempatLahirAnak")} />
@@ -275,6 +455,7 @@ export default function KeteranganTidakMampuFormPage() {
                             <Field
                                 label="Tanggal Lahir Anak"
                                 htmlFor="tanggalLahirAnak"
+                                hint="Opsional"
                                 error={errors.tanggalLahirAnak?.message}
                             >
                                 <Input
@@ -286,6 +467,7 @@ export default function KeteranganTidakMampuFormPage() {
                             <Field
                                 label="Jenis Kelamin"
                                 htmlFor="jenisKelaminAnak"
+                                hint="Opsional"
                                 error={errors.jenisKelaminAnak?.message}
                             >
                                 <Controller
@@ -294,7 +476,7 @@ export default function KeteranganTidakMampuFormPage() {
                                     render={({ field }) => (
                                         <JenisKelaminRadio
                                             id="jenisKelaminAnak"
-                                            value={field.value}
+                                            value={field.value ?? ""}
                                             onChange={field.onChange}
                                         />
                                     )}
@@ -303,7 +485,7 @@ export default function KeteranganTidakMampuFormPage() {
                             <Field
                                 label="Nama Sekolah/Universitas"
                                 htmlFor="namaSekolah"
-                                hint="Opsional, isi jika untuk keperluan sekolah/kuliah"
+                                hint="Opsional"
                                 error={errors.namaSekolah?.message}
                             >
                                 <Input id="namaSekolah" {...register("namaSekolah")} />

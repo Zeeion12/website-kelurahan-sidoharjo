@@ -1,11 +1,12 @@
 import { z } from "zod";
-import { dataOrangTuaSchema, dataPelaporSchema, jenisKelaminSchema } from "./shared.schema";
+import {
+    dataOrangTuaSchema,
+    dataPelaporSchema,
+    dataSaksiSchema,
+    jenisKelaminSchema,
+    tempatDilahirkanSchema,
+} from "./shared.schema";
 import { jenisKelahiranSchema, penolongKelahiranSchema } from "./kelahiran.schema";
-
-export const tempatDilahirkanSchema = z.enum(
-    ["rs-bidan", "puskesmas", "polindes", "rumah", "lainnya"],
-    "Tempat dilahirkan wajib dipilih"
-);
 
 export const yangMenentukanLahirMatiSchema = z.enum(
     ["dokter", "bidan-perawat", "tenaga-kesehatan", "kepolisian", "lainnya"],
@@ -22,10 +23,13 @@ export const lahirMatiSchema = z.object({
     jenisKelahiran: jenisKelahiranSchema,
     anakKe: z.coerce.number().int().positive("Anak ke berapa wajib diisi"),
     tempatDilahirkan: tempatDilahirkanSchema,
+    tempatKelahiran: z.string().min(1, "Tempat kelahiran wajib diisi"),
     penolongKelahiran: penolongKelahiranSchema,
     sebabLahirMati: z.string().min(1, "Sebab lahir mati wajib diisi"),
     yangMenentukan: yangMenentukanLahirMatiSchema,
     ...dataPelaporSchema.shape,
+    saksi1: dataSaksiSchema,
+    saksi2: dataSaksiSchema,
 });
 
 export type LahirMatiFormValues = z.infer<typeof lahirMatiSchema>;

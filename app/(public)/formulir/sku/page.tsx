@@ -39,14 +39,17 @@ export default function SkuFormPage() {
         defaultValues: {
             nama: "",
             nik: "",
-            jenisKelamin: "" as SkuFormValues["jenisKelamin"],
+            noKK: "",
             tempatLahir: "",
             tanggalLahir: "",
-            agama: "" as SkuFormValues["agama"],
+            jenisKelamin: "" as SkuFormValues["jenisKelamin"],
             statusPerkawinan: "" as SkuFormValues["statusPerkawinan"],
             pekerjaan: "",
+            pendidikanTerakhir: "" as SkuFormValues["pendidikanTerakhir"],
+            agama: "" as SkuFormValues["agama"],
             alamat: { padukuhan: "" as SkuFormValues["alamat"]["padukuhan"], rt: "", rw: "" },
             bidangUsaha: "",
+            jenisUsaha: "",
             lokasiUsaha: "",
         },
     });
@@ -87,6 +90,9 @@ export default function SkuFormPage() {
                             </Field>
                             <Field label="NIK" htmlFor="nik" error={errors.nik?.message}>
                                 <Input id="nik" inputMode="numeric" maxLength={16} {...register("nik")} />
+                            </Field>
+                            <Field label="Nomor KK" htmlFor="noKK" error={errors.noKK?.message}>
+                                <Input id="noKK" inputMode="numeric" maxLength={16} {...register("noKK")} />
                             </Field>
                             <Field
                                 label="Jenis Kelamin"
@@ -170,6 +176,33 @@ export default function SkuFormPage() {
                             >
                                 <Input id="pekerjaan" {...register("pekerjaan")} />
                             </Field>
+                            <Field
+                                label="Pendidikan Terakhir"
+                                htmlFor="pendidikanTerakhir"
+                                error={errors.pendidikanTerakhir?.message}
+                            >
+                                <Controller
+                                    name="pendidikanTerakhir"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger id="pendidikanTerakhir" className="w-full">
+                                                <SelectValue placeholder="Pilih pendidikan" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="tidak-sekolah">Tidak Sekolah</SelectItem>
+                                                <SelectItem value="sd">SD</SelectItem>
+                                                <SelectItem value="smp">SMP</SelectItem>
+                                                <SelectItem value="sma">SMA</SelectItem>
+                                                <SelectItem value="d3">D3</SelectItem>
+                                                <SelectItem value="s1">S1</SelectItem>
+                                                <SelectItem value="s2">S2</SelectItem>
+                                                <SelectItem value="s3">S3</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    )}
+                                />
+                            </Field>
                         </FormSection>
 
                         <FormSection title="Alamat Tempat Tinggal">
@@ -210,6 +243,13 @@ export default function SkuFormPage() {
                                 error={errors.bidangUsaha?.message}
                             >
                                 <Input id="bidangUsaha" {...register("bidangUsaha")} />
+                            </Field>
+                            <Field
+                                label="Jenis Usaha"
+                                htmlFor="jenisUsaha"
+                                error={errors.jenisUsaha?.message}
+                            >
+                                <Input id="jenisUsaha" {...register("jenisUsaha")} />
                             </Field>
                             <Field
                                 label="Lokasi Usaha"

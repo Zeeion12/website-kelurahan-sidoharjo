@@ -5,6 +5,10 @@ export const nikSchema = z
     .string()
     .regex(/^\d{16}$/, "NIK harus terdiri dari 16 digit angka");
 
+export const noKkSchema = z
+    .string()
+    .regex(/^\d{16}$/, "Nomor KK harus terdiri dari 16 digit angka");
+
 export const jenisKelaminSchema = z.enum(
     ["laki-laki", "perempuan"],
     "Jenis kelamin wajib dipilih"
@@ -20,6 +24,23 @@ export const statusPerkawinanSchema = z.enum(
     "Status perkawinan wajib dipilih"
 );
 
+export const kewarganegaraanSchema = z.enum(["wni", "wna"], "Kewarganegaraan wajib dipilih");
+
+export const pendidikanTerakhirSchema = z.enum(
+    ["tidak-sekolah", "sd", "smp", "sma", "d3", "s1", "s2", "s3"],
+    "Pendidikan terakhir wajib dipilih"
+);
+
+export const tempatPerkawinanSchema = z.enum(
+    ["kua", "gereja", "pure"],
+    "Tempat perkawinan wajib dipilih"
+);
+
+export const tempatDilahirkanSchema = z.enum(
+    ["rs-bidan", "puskesmas", "polindes", "rumah", "lainnya"],
+    "Tempat dilahirkan wajib dipilih"
+);
+
 export const padukuhanSchema = z.enum(PADUKUHAN_SIDOHARJO, "Padukuhan wajib dipilih");
 
 export const alamatSchema = z.object({
@@ -31,6 +52,9 @@ export const alamatSchema = z.object({
 export const dataPelaporSchema = z.object({
     namaPelapor: z.string().min(1, "Nama pelapor wajib diisi"),
     nikPelapor: nikSchema,
+    noKKPelapor: noKkSchema,
+    umurPelapor: z.coerce.number().int().positive("Umur pelapor wajib diisi"),
+    kewarganegaraanPelapor: kewarganegaraanSchema,
     pekerjaanPelapor: z.string().min(1, "Pekerjaan pelapor wajib diisi"),
     alamatPelapor: alamatSchema,
 });
@@ -38,17 +62,32 @@ export const dataPelaporSchema = z.object({
 export const dataOrangTuaSchema = z.object({
     namaAyah: z.string().min(1, "Nama ayah wajib diisi"),
     nikAyah: nikSchema,
+    tempatLahirAyah: z.string().min(1, "Tempat lahir ayah wajib diisi"),
+    tanggalLahirAyah: z.iso.date("Tanggal lahir ayah tidak valid"),
+    umurAyah: z.coerce.number().int().positive("Umur ayah wajib diisi"),
+    kewarganegaraanAyah: kewarganegaraanSchema,
     pekerjaanAyah: z.string().min(1, "Pekerjaan ayah wajib diisi"),
     alamatAyah: alamatSchema,
     namaIbu: z.string().min(1, "Nama ibu wajib diisi"),
     nikIbu: nikSchema,
+    tempatLahirIbu: z.string().min(1, "Tempat lahir ibu wajib diisi"),
+    tanggalLahirIbu: z.iso.date("Tanggal lahir ibu tidak valid"),
+    umurIbu: z.coerce.number().int().positive("Umur ibu wajib diisi"),
+    kewarganegaraanIbu: kewarganegaraanSchema,
     pekerjaanIbu: z.string().min(1, "Pekerjaan ibu wajib diisi"),
     alamatIbu: alamatSchema,
-    tanggalPerkawinan: z.iso.date("Tanggal perkawinan tidak valid").optional(),
+    tempatPerkawinan: tempatPerkawinanSchema.optional().or(z.literal("")),
+    tanggalPerkawinan: z.iso
+        .date("Tanggal perkawinan tidak valid")
+        .optional()
+        .or(z.literal("")),
 });
 
 export const dataSaksiSchema = z.object({
     nama: z.string().min(1, "Nama saksi wajib diisi"),
+    nik: nikSchema,
+    noKK: noKkSchema.optional().or(z.literal("")),
+    kewarganegaraan: kewarganegaraanSchema,
     umur: z.coerce.number().int().positive("Umur saksi wajib diisi"),
     pekerjaan: z.string().min(1, "Pekerjaan saksi wajib diisi"),
     alamat: z.string().min(1, "Alamat saksi wajib diisi"),
