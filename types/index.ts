@@ -7,7 +7,10 @@ export type JenisSuratId =
     | "sku"
     | "izin-usaha"
     | "keterangan-tidak-mampu"
-    | "pindah-domisili";
+    | "pindah-domisili"
+    | "rekomendasi-nikah"
+    | "dispensasi-nikah"
+    | "pengantar-nikah";
 
 export interface JenisSuratConfig {
     id: JenisSuratId;

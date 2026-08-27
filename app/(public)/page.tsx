@@ -15,13 +15,19 @@ import { JENIS_SURAT } from "@/config/jenis-surat";
 export default function HomePage() {
     return (
         <div className="flex flex-col">
-            <section className="border-b border-border bg-muted/30">
-                <div className="mx-auto flex w-full max-w-5xl flex-col items-start gap-4 px-4 py-16">
-                    <Badge variant="secondary">Kalurahan Sidoharjo, Kapanewon Tepus</Badge>
-                    <h1 className="font-heading text-3xl font-semibold tracking-tight sm:text-4xl">
+            <section className="relative overflow-hidden border-b border-white/10 bg-linear-to-br from-emerald-950 via-green-900 to-neutral-950">
+                <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_55%)]"
+                />
+                <div className="relative mx-auto flex w-full max-w-5xl flex-col items-start gap-4 px-4 py-16">
+                    <Badge className="border-white/20 bg-white/10 text-white">
+                        Kalurahan Sidoharjo, Kapanewon Tepus
+                    </Badge>
+                    <h1 className="font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                         Ajukan surat keterangan tanpa perlu datang berkali-kali
                     </h1>
-                    <p className="max-w-2xl text-muted-foreground">
+                    <p className="max-w-2xl text-white/70">
                         Pilih jenis surat, isi data yang diperlukan, dan dapatkan nomor
                         tiket untuk memantau status pengajuan Anda secara online.
                     </p>
@@ -33,6 +39,7 @@ export default function HomePage() {
                         <Button
                             size="lg"
                             variant="outline"
+                            className="border-white/30 bg-white/5 text-white hover:bg-white/15 hover:text-white"
                             nativeButton={false}
                             render={<Link href="/status" />}
                         >

@@ -210,7 +210,7 @@ export default function KematianFormPage() {
                                     )}
                                 />
                             </Field>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <Field
                                     label="RT"
                                     htmlFor="alamatTerakhirAlmarhum.rt"
@@ -390,7 +390,7 @@ export default function KematianFormPage() {
                                     )}
                                 />
                             </Field>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <Field label="RT" htmlFor="alamatAyah.rt" error={errors.alamatAyah?.rt?.message}>
                                     <Input
                                         id="alamatAyah.rt"
@@ -479,7 +479,7 @@ export default function KematianFormPage() {
                                     )}
                                 />
                             </Field>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <Field label="RT" htmlFor="alamatIbu.rt" error={errors.alamatIbu?.rt?.message}>
                                     <Input
                                         id="alamatIbu.rt"
@@ -700,7 +700,7 @@ export default function KematianFormPage() {
                                     )}
                                 />
                             </Field>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <Field
                                     label="RT"
                                     htmlFor="alamatPelapor.rt"

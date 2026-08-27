@@ -83,6 +83,29 @@ export const dataOrangTuaSchema = z.object({
         .or(z.literal("")),
 });
 
+// Dipakai khusus surat-surat nikah (RKN/DPN/PN) -- BEDA dari `dataOrangTua`
+// di atas (dipakai KLH/LHM/KTN). Di sini butuh agama & kewarganegaraan, dan
+// alamatnya teks bebas karena orang tua bisa berdomisili di luar Sidoharjo.
+// Jangan ubah `dataOrangTua` yang lama, skema-skema itu masih memakainya.
+export const dataOrangTuaNikahSchema = z.object({
+    namaAyah: z.string().min(1, "Nama ayah wajib diisi"),
+    nikAyah: nikSchema,
+    tempatLahirAyah: z.string().min(1, "Tempat lahir ayah wajib diisi"),
+    tanggalLahirAyah: z.iso.date("Tanggal lahir ayah tidak valid"),
+    kewarganegaraanAyah: kewarganegaraanSchema,
+    agamaAyah: agamaSchema,
+    pekerjaanAyah: z.string().min(1, "Pekerjaan ayah wajib diisi"),
+    alamatAyah: z.string().min(1, "Alamat ayah wajib diisi"),
+    namaIbu: z.string().min(1, "Nama ibu wajib diisi"),
+    nikIbu: nikSchema,
+    tempatLahirIbu: z.string().min(1, "Tempat lahir ibu wajib diisi"),
+    tanggalLahirIbu: z.iso.date("Tanggal lahir ibu tidak valid"),
+    kewarganegaraanIbu: kewarganegaraanSchema,
+    agamaIbu: agamaSchema,
+    pekerjaanIbu: z.string().min(1, "Pekerjaan ibu wajib diisi"),
+    alamatIbu: z.string().min(1, "Alamat ibu wajib diisi"),
+});
+
 export const dataSaksiSchema = z.object({
     nama: z.string().min(1, "Nama saksi wajib diisi"),
     nik: nikSchema,

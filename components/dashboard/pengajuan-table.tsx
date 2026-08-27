@@ -19,14 +19,14 @@ interface PengajuanTableProps {
 export function PengajuanTable({ items }: PengajuanTableProps) {
     if (items.length === 0) {
         return (
-            <div className="rounded-lg border border-dashed border-border py-12 text-center text-sm text-muted-foreground">
+            <div className="rounded-xl border border-dashed border-green-900/15 bg-white py-12 text-center text-sm text-muted-foreground">
                 Belum ada pengajuan.
             </div>
         );
     }
 
     return (
-        <div className="rounded-lg border border-border">
+        <div className="overflow-x-auto rounded-xl border border-green-900/10 bg-white shadow-sm">
             <Table>
                 <TableHeader>
                     <TableRow>

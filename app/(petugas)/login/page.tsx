@@ -2,6 +2,8 @@
 
 import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,7 +37,15 @@ export default function LoginPage() {
         setIsSubmitting(false);
 
         if (signInError) {
-            setError("Email atau kata sandi salah.");
+            if (signInError.code === "email_not_confirmed") {
+                setError(
+                    "Akun ini belum dikonfirmasi."
+                );
+            } else if (signInError.code === "invalid_credentials") {
+                setError("Email atau kata sandi salah.");
+            } else {
+                setError(`Gagal login: ${signInError.message}`);
+            }
             return;
         }
 
@@ -44,7 +54,14 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-muted/30 px-4">
+        <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-muted/30 px-4">
+            <Link
+                href="/"
+                className="inline-flex items-center gap-1 self-center text-sm text-muted-foreground hover:text-foreground"
+            >
+                <ArrowLeft className="size-4" />
+                Kembali ke Beranda
+            </Link>
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Login Petugas</CardTitle>
@@ -60,6 +77,7 @@ export default function LoginPage() {
                                 id="email"
                                 type="email"
                                 autoComplete="username"
+                                placeholder="example@gmail.com"
                                 required
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -71,6 +89,7 @@ export default function LoginPage() {
                                 id="password"
                                 type="password"
                                 autoComplete="current-password"
+                                placeholder="PasswordExample"
                                 required
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}

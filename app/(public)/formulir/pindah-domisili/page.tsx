@@ -181,7 +181,7 @@ export default function PindahDomisiliFormPage() {
                                     )}
                                 />
                             </Field>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <Field
                                     label="RT"
                                     htmlFor="alamatAsal.rt"
@@ -253,7 +253,7 @@ export default function PindahDomisiliFormPage() {
                             >
                                 <Input id="alamatTujuan.alamat" {...register("alamatTujuan.alamat")} />
                             </Field>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <Field
                                     label="RT"
                                     htmlFor="alamatTujuan.rt"

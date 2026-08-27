@@ -84,6 +84,39 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
         estimasiHari: 1,
         tersedia: true,
     },
+    {
+        id: "rekomendasi-nikah",
+        kode: "RKN",
+        nama: "Surat Pengantar Mohon Rekomendasi Nikah",
+        deskripsi: "Pengantar dari Kalurahan untuk mengurus rekomendasi nikah.",
+        persyaratan: ["KTP pemohon", "Kartu Keluarga", "Data calon istri"],
+        estimasiHari: 2,
+        tersedia: true,
+    },
+    {
+        id: "dispensasi-nikah",
+        kode: "DPN",
+        nama: "Permohonan Dispensasi Nikah",
+        deskripsi:
+            "Permohonan dispensasi waktu pelaksanaan nikah kepada Panewu Kapanewon Tepus.",
+        persyaratan: ["KTP mempelai", "Kartu Keluarga", "Data calon pasangan"],
+        estimasiHari: 2,
+        tersedia: true,
+    },
+    {
+        id: "pengantar-nikah",
+        kode: "PN",
+        nama: "Pengantar Nikah (N1, N2, N4)",
+        deskripsi: "Paket pengantar nikah untuk KUA: Model N1, N2, dan N4 sekaligus.",
+        persyaratan: [
+            "KTP pemohon",
+            "Kartu Keluarga",
+            "Data orang tua",
+            "Data calon pasangan",
+        ],
+        estimasiHari: 3,
+        tersedia: true,
+    },
 ];
 
 export function getJenisSuratById(id: JenisSuratId): JenisSuratConfig | undefined {
