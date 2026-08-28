@@ -41,6 +41,7 @@ export default function KelahiranFormPage() {
     } = useForm<KelahiranFormInput>({
         resolver: zodResolver(kelahiranSchema),
         defaultValues: {
+            namaPengaju: "",
             laporanKelahiran: "" as KelahiranFormInput["laporanKelahiran"],
             namaAyah: "",
             nikAyah: "",
@@ -123,6 +124,20 @@ export default function KelahiranFormPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                        <FormSection
+                            title="Data Pengaju"
+                            description="Warga yang mengisi formulir ini secara online, boleh sama dengan pemohon di bawah."
+                        >
+                            <Field
+                                label="Nama Pengaju"
+                                htmlFor="namaPengaju"
+                                error={errors.namaPengaju?.message}
+                                className="sm:col-span-2"
+                            >
+                                <Input id="namaPengaju" {...register("namaPengaju")} />
+                            </Field>
+                        </FormSection>
+
                         <FormSection title="Jenis Laporan">
                             <Field
                                 label="Laporan Kelahiran"
@@ -180,7 +195,7 @@ export default function KelahiranFormPage() {
                                 <Input id="tanggalLahirAyah" type="date" {...register("tanggalLahirAyah")} />
                             </Field>
                             <Field label="Umur Ayah" htmlFor="umurAyah" error={errors.umurAyah?.message}>
-                                <Input id="umurAyah" type="number" {...register("umurAyah")} />
+                                <Input id="umurAyah" type="number" min={0} {...register("umurAyah")} />
                             </Field>
                             <Field
                                 label="Kewarganegaraan Ayah"
@@ -279,7 +294,7 @@ export default function KelahiranFormPage() {
                                 <Input id="tanggalLahirIbu" type="date" {...register("tanggalLahirIbu")} />
                             </Field>
                             <Field label="Umur Ibu" htmlFor="umurIbu" error={errors.umurIbu?.message}>
-                                <Input id="umurIbu" type="number" {...register("umurIbu")} />
+                                <Input id="umurIbu" type="number" min={0} {...register("umurIbu")} />
                             </Field>
                             <Field
                                 label="Kewarganegaraan Ibu"
@@ -579,7 +594,7 @@ export default function KelahiranFormPage() {
                                 />
                             </Field>
                             <Field label="Umur Pelapor" htmlFor="umurPelapor" error={errors.umurPelapor?.message}>
-                                <Input id="umurPelapor" type="number" {...register("umurPelapor")} />
+                                <Input id="umurPelapor" type="number" min={0} {...register("umurPelapor")} />
                             </Field>
                             <Field
                                 label="Kewarganegaraan Pelapor"
@@ -701,7 +716,7 @@ export default function KelahiranFormPage() {
                                 htmlFor="saksi1.umur"
                                 error={errors.saksi1?.umur?.message}
                             >
-                                <Input id="saksi1.umur" type="number" {...register("saksi1.umur")} />
+                                <Input id="saksi1.umur" type="number" min={0} {...register("saksi1.umur")} />
                             </Field>
                             <Field
                                 label="Pekerjaan"
@@ -770,7 +785,7 @@ export default function KelahiranFormPage() {
                                 htmlFor="saksi2.umur"
                                 error={errors.saksi2?.umur?.message}
                             >
-                                <Input id="saksi2.umur" type="number" {...register("saksi2.umur")} />
+                                <Input id="saksi2.umur" type="number" min={0} {...register("saksi2.umur")} />
                             </Field>
                             <Field
                                 label="Pekerjaan"

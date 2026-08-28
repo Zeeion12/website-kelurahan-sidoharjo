@@ -40,6 +40,7 @@ export default function KeteranganTidakMampuFormPage() {
     } = useForm<KeteranganTidakMampuFormInput>({
         resolver: zodResolver(keteranganTidakMampuSchema),
         defaultValues: {
+            namaPengaju: "",
             namaPemohon: "",
             ktpPemohon: "",
             kkPemohon: "",
@@ -102,6 +103,20 @@ export default function KeteranganTidakMampuFormPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                        <FormSection
+                            title="Data Pengaju"
+                            description="Warga yang mengisi formulir ini secara online, boleh sama dengan pemohon di bawah."
+                        >
+                            <Field
+                                label="Nama Pengaju"
+                                htmlFor="namaPengaju"
+                                error={errors.namaPengaju?.message}
+                                className="sm:col-span-2"
+                            >
+                                <Input id="namaPengaju" {...register("namaPengaju")} />
+                            </Field>
+                        </FormSection>
+
                         <FormSection
                             title="Data Pemohon"
                             description="Isi sesuai KTP yang berlaku."

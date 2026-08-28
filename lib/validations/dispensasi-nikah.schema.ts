@@ -14,6 +14,7 @@ import {
 // dua arah; label di template .docx nanti perlu disesuaikan manual.
 export const dispensasiNikahSchema = z
     .object({
+        namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
         namaMempelai: z.string().min(1, "Nama wajib diisi"),
         jenisKelaminMempelai: jenisKelaminSchema,
         tempatLahirMempelai: z.string().min(1, "Tempat lahir wajib diisi"),

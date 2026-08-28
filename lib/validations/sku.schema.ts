@@ -10,6 +10,7 @@ import {
 } from "./shared.schema";
 
 export const skuSchema = z.object({
+    namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
     nama: z.string().min(1, "Nama wajib diisi"),
     nik: nikSchema,
     noKK: noKkSchema,

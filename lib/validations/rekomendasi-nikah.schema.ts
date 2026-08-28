@@ -5,6 +5,7 @@ import { agamaSchema, alamatSchema, nikSchema } from "./shared.schema";
 // kedua sebagai perempuan ("akan melangsungkan pernikahan dengan seorang
 // Perempuan") -- jadi tidak ada field jenis kelamin di skema ini.
 export const rekomendasiNikahSchema = z.object({
+    namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
     namaPemohon: z.string().min(1, "Nama wajib diisi"),
     // tidak ada di template resmi, untuk verifikasi internal
     nikPemohon: nikSchema.optional().or(z.literal("")),

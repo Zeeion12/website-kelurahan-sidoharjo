@@ -89,6 +89,7 @@ export default function DispensasiNikahFormPage() {
     } = useForm<DispensasiNikahFormInput>({
         resolver: zodResolver(dispensasiNikahSchema),
         defaultValues: {
+            namaPengaju: "",
             namaMempelai: "",
             jenisKelaminMempelai: "" as DispensasiNikahFormInput["jenisKelaminMempelai"],
             tempatLahirMempelai: "",
@@ -150,6 +151,20 @@ export default function DispensasiNikahFormPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                        <FormSection
+                            title="Data Pengaju"
+                            description="Warga yang mengisi formulir ini secara online, boleh sama dengan mempelai di bawah."
+                        >
+                            <Field
+                                label="Nama Pengaju"
+                                htmlFor="namaPengaju"
+                                error={errors.namaPengaju?.message}
+                                className="sm:col-span-2"
+                            >
+                                <Input id="namaPengaju" {...register("namaPengaju")} />
+                            </Field>
+                        </FormSection>
+
                         <FormSection
                             title="Data Mempelai"
                             description="Warga Sidoharjo, sesuai KTP/KK."

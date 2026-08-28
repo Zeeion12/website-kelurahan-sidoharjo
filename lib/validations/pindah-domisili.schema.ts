@@ -87,6 +87,7 @@ const alamatTujuanSchema = z.object({
 
 export const pindahDomisiliSchema = z
     .object({
+        namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
         noKK: noKkSchema,
         namaPemohon: z.string().min(1, "Nama wajib diisi"),
         nikPemohon: nikSchema,

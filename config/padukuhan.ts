@@ -8,6 +8,7 @@ export const PADUKUHAN_SIDOHARJO = [
     "Puleireng",
     "Pule Ngelo",
     "Pule Gundes I",
+    "Pule Gundes II",
     "Pule Kulon",
 ] as const;
 

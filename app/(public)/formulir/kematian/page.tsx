@@ -36,6 +36,7 @@ export default function KematianFormPage() {
     } = useForm<KematianFormInput>({
         resolver: zodResolver(kematianSchema),
         defaultValues: {
+            namaPengaju: "",
             nikAlmarhum: "",
             namaAlmarhum: "",
             tempatLahirAlmarhum: "",
@@ -124,6 +125,20 @@ export default function KematianFormPage() {
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
                         <FormSection
+                            title="Data Pengaju"
+                            description="Warga yang mengisi formulir ini secara online, boleh sama dengan pelapor di bawah."
+                        >
+                            <Field
+                                label="Nama Pengaju"
+                                htmlFor="namaPengaju"
+                                error={errors.namaPengaju?.message}
+                                className="sm:col-span-2"
+                            >
+                                <Input id="namaPengaju" {...register("namaPengaju")} />
+                            </Field>
+                        </FormSection>
+
+                        <FormSection
                             title="Data Almarhum/Almarhumah"
                             description="Sesuai KTP/KK yang bersangkutan."
                         >
@@ -165,7 +180,7 @@ export default function KematianFormPage() {
                                 />
                             </Field>
                             <Field label="Umur" htmlFor="umurAlmarhum" error={errors.umurAlmarhum?.message}>
-                                <Input id="umurAlmarhum" type="number" {...register("umurAlmarhum")} />
+                                <Input id="umurAlmarhum" type="number" min={0} {...register("umurAlmarhum")} />
                             </Field>
                             <Field
                                 label="Jenis Kelamin"
@@ -346,7 +361,7 @@ export default function KematianFormPage() {
                                 <Input id="tanggalLahirAyah" type="date" {...register("tanggalLahirAyah")} />
                             </Field>
                             <Field label="Umur Ayah" htmlFor="umurAyah" error={errors.umurAyah?.message}>
-                                <Input id="umurAyah" type="number" {...register("umurAyah")} />
+                                <Input id="umurAyah" type="number" min={0} {...register("umurAyah")} />
                             </Field>
                             <Field
                                 label="Kewarganegaraan Ayah"
@@ -435,7 +450,7 @@ export default function KematianFormPage() {
                                 <Input id="tanggalLahirIbu" type="date" {...register("tanggalLahirIbu")} />
                             </Field>
                             <Field label="Umur Ibu" htmlFor="umurIbu" error={errors.umurIbu?.message}>
-                                <Input id="umurIbu" type="number" {...register("umurIbu")} />
+                                <Input id="umurIbu" type="number" min={0} {...register("umurIbu")} />
                             </Field>
                             <Field
                                 label="Kewarganegaraan Ibu"
@@ -542,7 +557,7 @@ export default function KematianFormPage() {
                                 />
                             </Field>
                             <Field label="Umur" htmlFor="saksi1.umur" error={errors.saksi1?.umur?.message}>
-                                <Input id="saksi1.umur" type="number" {...register("saksi1.umur")} />
+                                <Input id="saksi1.umur" type="number" min={0} {...register("saksi1.umur")} />
                             </Field>
                             <Field
                                 label="Pekerjaan"
@@ -599,7 +614,7 @@ export default function KematianFormPage() {
                                 />
                             </Field>
                             <Field label="Umur" htmlFor="saksi2.umur" error={errors.saksi2?.umur?.message}>
-                                <Input id="saksi2.umur" type="number" {...register("saksi2.umur")} />
+                                <Input id="saksi2.umur" type="number" min={0} {...register("saksi2.umur")} />
                             </Field>
                             <Field
                                 label="Pekerjaan"
@@ -649,7 +664,7 @@ export default function KematianFormPage() {
                                 />
                             </Field>
                             <Field label="Umur Pelapor" htmlFor="umurPelapor" error={errors.umurPelapor?.message}>
-                                <Input id="umurPelapor" type="number" {...register("umurPelapor")} />
+                                <Input id="umurPelapor" type="number" min={0} {...register("umurPelapor")} />
                             </Field>
                             <Field
                                 label="Kewarganegaraan Pelapor"

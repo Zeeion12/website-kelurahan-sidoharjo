@@ -25,6 +25,7 @@ export const statusPernikahanPemohonSchema = z.enum(
 
 export const pengantarNikahSchema = z
     .object({
+        namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
         peranPemohon: peranPemohonSchema,
 
         // Data pemohon (warga Sidoharjo, subjek Model N1)

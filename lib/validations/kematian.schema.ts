@@ -19,6 +19,7 @@ export const yangMenerangkanSchema = z.enum(
 );
 
 export const kematianSchema = z.object({
+    namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
     nikAlmarhum: nikSchema,
     namaAlmarhum: z.string().min(1, "Nama lengkap wajib diisi"),
     tempatLahirAlmarhum: z.string().min(1, "Tempat lahir wajib diisi"),

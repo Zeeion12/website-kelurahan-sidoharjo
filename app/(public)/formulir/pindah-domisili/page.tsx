@@ -39,6 +39,7 @@ export default function PindahDomisiliFormPage() {
     } = useForm<PindahDomisiliFormInput>({
         resolver: zodResolver(pindahDomisiliSchema),
         defaultValues: {
+            namaPengaju: "",
             noKK: "",
             namaPemohon: "",
             nikPemohon: "",
@@ -115,6 +116,20 @@ export default function PindahDomisiliFormPage() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                        <FormSection
+                            title="Data Pengaju"
+                            description="Warga yang mengisi formulir ini secara online, boleh sama dengan pemohon di bawah."
+                        >
+                            <Field
+                                label="Nama Pengaju"
+                                htmlFor="namaPengaju"
+                                error={errors.namaPengaju?.message}
+                                className="sm:col-span-2"
+                            >
+                                <Input id="namaPengaju" {...register("namaPengaju")} />
+                            </Field>
+                        </FormSection>
+
                         <FormSection title="Data Pemohon">
                             <Field label="Nama Pemohon" htmlFor="namaPemohon" error={errors.namaPemohon?.message}>
                                 <Input id="namaPemohon" {...register("namaPemohon")} />

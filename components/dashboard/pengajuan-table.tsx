@@ -31,6 +31,7 @@ export function PengajuanTable({ items }: PengajuanTableProps) {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Nomor Tiket</TableHead>
+                        <TableHead>Nama Pengaju</TableHead>
                         <TableHead>Jenis Surat</TableHead>
                         <TableHead>Tanggal Pengajuan</TableHead>
                         <TableHead>Status</TableHead>
@@ -41,6 +42,11 @@ export function PengajuanTable({ items }: PengajuanTableProps) {
                     {items.map((item) => (
                         <TableRow key={item.id}>
                             <TableCell className="font-mono">{item.nomor_tiket}</TableCell>
+                            <TableCell>
+                                {typeof item.data.namaPengaju === "string"
+                                    ? item.data.namaPengaju
+                                    : "-"}
+                            </TableCell>
                             <TableCell>{getJenisSuratById(item.jenis_surat)?.nama}</TableCell>
                             <TableCell>{formatTanggal(item.created_at)}</TableCell>
                             <TableCell>

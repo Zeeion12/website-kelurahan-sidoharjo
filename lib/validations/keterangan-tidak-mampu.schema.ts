@@ -22,6 +22,7 @@ const anggotaKeluargaSchema = z.object({
 
 export const keteranganTidakMampuSchema = z
     .object({
+        namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
         namaPemohon: z.string().min(1, "Nama wajib diisi"),
         ktpPemohon: nikSchema,
         kkPemohon: z.string().regex(/^\d{16}$/, "Nomor KK harus terdiri dari 16 digit angka"),

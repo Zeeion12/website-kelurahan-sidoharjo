@@ -18,6 +18,7 @@ export const penolongKelahiranSchema = z.enum(
 );
 
 export const kelahiranSchema = z.object({
+    namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
     laporanKelahiran: z.enum(["umum", "terlambat"], "Jenis laporan wajib dipilih"),
     ...dataOrangTuaSchema.shape,
     namaAnak: z.string().min(1, "Nama anak wajib diisi"),

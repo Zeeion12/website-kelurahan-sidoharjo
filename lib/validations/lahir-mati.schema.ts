@@ -14,6 +14,7 @@ export const yangMenentukanLahirMatiSchema = z.enum(
 );
 
 export const lahirMatiSchema = z.object({
+    namaPengaju: z.string().min(1, "Nama pengaju wajib diisi"),
     ...dataOrangTuaSchema.shape,
     jenisKelaminAnak: jenisKelaminSchema,
     lamanyaDalamKandunganBulan: z.coerce
