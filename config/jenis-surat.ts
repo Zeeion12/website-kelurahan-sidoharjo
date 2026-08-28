@@ -65,16 +65,6 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
         tersedia: true,
     },
     {
-        id: "izin-usaha",
-        kode: "SIU",
-        nama: "Surat Izin Usaha",
-        deskripsi:
-            "Belum tersedia — Kalurahan tidak menerbitkan izin usaha (ranah OSS/DPMPT). Kemungkinan besar sama dengan Surat Keterangan Usaha; menunggu konfirmasi Kelurahan.",
-        persyaratan: [],
-        estimasiHari: 0,
-        tersedia: false,
-    },
-    {
         id: "pindah-domisili",
         kode: "SKPD",
         nama: "Surat Keterangan Pindah Domisili",
@@ -83,6 +73,7 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
         persyaratan: ["Kartu Keluarga", "KTP pemohon", "Data anggota keluarga yang ikut pindah"],
         estimasiHari: 1,
         tersedia: true,
+        instansi: "dukcapil",
     },
     {
         id: "rekomendasi-nikah",
@@ -116,6 +107,41 @@ export const JENIS_SURAT: JenisSuratConfig[] = [
         ],
         estimasiHari: 3,
         tersedia: true,
+    },
+    {
+        id: "perubahan-elemen-data",
+        kode: "PED",
+        nama: "Surat Pernyataan Perubahan Elemen Data (F-1.06)",
+        deskripsi:
+            "Pernyataan perubahan data kependudukan seperti pendidikan, pekerjaan, atau agama pada KK.",
+        persyaratan: ["Kartu Keluarga", "KTP", "Bukti pendukung perubahan data (jika ada)"],
+        estimasiHari: 1,
+        tersedia: true,
+        instansi: "dukcapil",
+    },
+    {
+        id: "peristiwa-kependudukan",
+        kode: "PPK",
+        nama: "Formulir Pendaftaran Peristiwa Kependudukan (F-1.02)",
+        deskripsi:
+            "Formulir pendaftaran untuk pembuatan atau perubahan KK, KTP-el, dan Kartu Identitas Anak.",
+        persyaratan: ["KTP", "Kartu Keluarga", "Dokumen pendukung sesuai jenis permohonan"],
+        estimasiHari: 1,
+        tersedia: true,
+        instansi: "dukcapil",
+    },
+    {
+        id: "biodata-keluarga",
+        kode: "BDK",
+        nama: "Formulir Biodata Keluarga (F-1.01)",
+        deskripsi: "Pendaftaran biodata keluarga baru untuk penerbitan Kartu Keluarga.",
+        persyaratan: [
+            "Data lengkap seluruh anggota keluarga",
+            "Dokumen pendukung (akta kelahiran/nikah/cerai jika ada)",
+        ],
+        estimasiHari: 3,
+        tersedia: true,
+        instansi: "dukcapil",
     },
 ];
 

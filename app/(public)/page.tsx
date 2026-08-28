@@ -64,8 +64,15 @@ export default function HomePage() {
                     {JENIS_SURAT.map((jenis) => (
                         <Card key={jenis.id} className="flex flex-col justify-between">
                             <CardHeader>
-                                <div className="mb-1 flex items-center justify-between">
-                                    <Badge variant="outline">{jenis.kode}</Badge>
+                                <div className="mb-1 flex flex-wrap items-center justify-between gap-1">
+                                    <div className="flex items-center gap-1.5">
+                                        <Badge variant="outline">{jenis.kode}</Badge>
+                                        {jenis.instansi === "dukcapil" && (
+                                            <Badge className="border-amber-600/30 bg-amber-50 text-amber-800">
+                                                Formulir Dukcapil
+                                            </Badge>
+                                        )}
+                                    </div>
                                     {!jenis.tersedia && (
                                         <Badge variant="secondary">Segera hadir</Badge>
                                     )}

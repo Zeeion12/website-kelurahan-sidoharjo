@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { alamatSchema, nikSchema, noKkSchema } from "./shared.schema";
+import { alamatSchema, nikSchema, noKkSchema, shdkSchema, tipeSponsorSchema } from "./shared.schema";
 
 // Formulir F-1.03 Dukcapil -- Lurah tidak ikut tanda tangan di sini,
 // penanda tangan resminya Kepala Dinas Dukcapil + Pelapor. Aplikasi ini
@@ -46,27 +46,6 @@ export const statusKkSchema = z.enum(
     "Status KK wajib dipilih"
 );
 
-export const shdkSchema = z.enum(
-    [
-        "kepala-keluarga",
-        "suami",
-        "istri",
-        "anak",
-        "menantu",
-        "cucu",
-        "orangtua",
-        "mertua",
-        "famili-lain",
-        "pembantu",
-        "lainnya",
-    ],
-    "Status hubungan dalam keluarga wajib dipilih"
-);
-
-export const tipeSponsorSchema = z.enum(
-    ["organisasi", "pemerintah", "perorangan", "tanpa-sponsor"],
-    "Tipe sponsor wajib dipilih"
-);
 
 const anggotaPindahSchema = z.object({
     nik: nikSchema,

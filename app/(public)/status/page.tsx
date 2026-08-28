@@ -45,6 +45,7 @@ export default async function StatusPage({
                         <div className="flex flex-1 flex-col gap-1.5">
                             <Label htmlFor="tiket">Nomor Tiket</Label>
                             <Input
+                                key={nomorTiket}
                                 id="tiket"
                                 name="tiket"
                                 placeholder="Contoh: SKU-260824-1234"

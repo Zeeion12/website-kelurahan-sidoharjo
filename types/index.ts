@@ -5,12 +5,14 @@ export type JenisSuratId =
     | "lahir-mati"
     | "kematian"
     | "sku"
-    | "izin-usaha"
     | "keterangan-tidak-mampu"
     | "pindah-domisili"
     | "rekomendasi-nikah"
     | "dispensasi-nikah"
-    | "pengantar-nikah";
+    | "pengantar-nikah"
+    | "perubahan-elemen-data"
+    | "peristiwa-kependudukan"
+    | "biodata-keluarga";
 
 export interface JenisSuratConfig {
     id: JenisSuratId;
@@ -20,4 +22,7 @@ export interface JenisSuratConfig {
     persyaratan: string[];
     estimasiHari: number;
     tersedia: boolean;
+    /** "dukcapil" = formulir resmi Dukcapil, bukan surat kalurahan (tidak berkop
+     * kalurahan, Lurah tidak menandatangani). Default kalurahan kalau kosong. */
+    instansi?: "kalurahan" | "dukcapil";
 }

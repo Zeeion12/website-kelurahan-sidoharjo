@@ -43,6 +43,47 @@ export const tempatDilahirkanSchema = z.enum(
 
 export const padukuhanSchema = z.enum(PADUKUHAN_SIDOHARJO, "Padukuhan wajib dipilih");
 
+export const golonganDarahSchema = z.enum(
+    [
+        "a",
+        "b",
+        "ab",
+        "o",
+        "a-plus",
+        "a-minus",
+        "b-plus",
+        "b-minus",
+        "ab-plus",
+        "ab-minus",
+        "o-plus",
+        "o-minus",
+        "tidak-tahu",
+    ],
+    "Golongan darah wajib dipilih"
+);
+
+export const shdkSchema = z.enum(
+    [
+        "kepala-keluarga",
+        "suami",
+        "istri",
+        "anak",
+        "menantu",
+        "cucu",
+        "orangtua",
+        "mertua",
+        "famili-lain",
+        "pembantu",
+        "lainnya",
+    ],
+    "Status hubungan dalam keluarga wajib dipilih"
+);
+
+export const tipeSponsorSchema = z.enum(
+    ["organisasi", "pemerintah", "perorangan", "tanpa-sponsor"],
+    "Tipe sponsor wajib dipilih"
+);
+
 export const alamatSchema = z.object({
     padukuhan: padukuhanSchema,
     rt: z.string().regex(/^\d{1,2}$/, "RT harus berupa angka"),
