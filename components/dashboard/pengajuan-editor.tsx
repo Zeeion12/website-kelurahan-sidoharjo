@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -24,6 +24,7 @@ import {
 import { StatusBadge } from "@/components/dashboard/status-badge";
 import { getJenisSuratById } from "@/config/jenis-surat";
 import { updatePengajuanClient } from "@/lib/pengajuan-client";
+import { suratPunyaTemplate } from "@/lib/template-surat";
 import { STATUS_LABEL, STATUS_OPTIONS } from "@/lib/status";
 import { formatTanggal, humanizeKey, humanizeValue } from "@/lib/format";
 import type { StatusPengajuan } from "@/types";
@@ -124,6 +125,17 @@ export function PengajuanEditor({ pengajuan }: PengajuanEditorProps) {
                     <p className="text-sm text-muted-foreground">
                         Diajukan pada {formatTanggal(pengajuan.created_at)}
                     </p>
+                    {suratPunyaTemplate(pengajuan.jenis_surat) && (
+                        <Button
+                            variant="outline"
+                            className="w-fit"
+                            nativeButton={false}
+                            render={<a href={`/api/surat/${pengajuan.id}`} />}
+                        >
+                            <Download />
+                            Unduh Surat (.docx)
+                        </Button>
+                    )}
                     <DataFields data={pengajuan.data} />
                 </CardContent>
             </Card>
