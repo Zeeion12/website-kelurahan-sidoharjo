@@ -26,7 +26,17 @@ export async function updateSession(request: NextRequest) {
         }
     );
 
-    const { data: { user } } = await supabase.auth.getUser();
+    // Cookie sesi lama/basi (mis. sisa login sebelumnya, atau project Supabase
+    // pernah di-reset) bisa membuat refresh token di cookie sudah tidak valid
+    // lagi -- getUser() akan melempar error dalam kasus ini, bukan sekadar
+    // mengembalikan user: null. Tangkap di sini dan anggap saja "belum login".
+    let user = null;
+    try {
+        const result = await supabase.auth.getUser();
+        user = result.data.user;
+    } catch {
+        user = null;
+    }
 
     if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
         const url = request.nextUrl.clone();

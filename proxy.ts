@@ -13,17 +13,19 @@ function getClientIp(request: NextRequest): string {
 
 // Hanya membatasi percobaan cek status (request dengan ?tiket=...), bukan
 // sekadar membuka halaman /status -- supaya brute-force nebak nomor tiket
-// tidak bisa dicoba ratusan kali per menit dari IP yang sama.
+// tidak bisa dicoba ratusan kali per menit dari IP yang sama. Kalau kena
+// limit, redirect balik ke /status dengan flag `dibatasi` supaya halaman
+// tetap tampil normal (bukan halaman teks polos di luar UI situs).
 function cekStatusRateLimit(request: NextRequest): NextResponse | null {
     const tiket = request.nextUrl.searchParams.get("tiket");
     if (!tiket) return null;
 
     const ip = getClientIp(request);
     if (isRateLimited(`cek-status:${ip}`, CEK_STATUS_LIMIT, CEK_STATUS_WINDOW_MS)) {
-        return new NextResponse(
-            "Terlalu banyak percobaan cek status. Coba lagi dalam 1 menit.",
-            { status: 429 }
-        );
+        const url = request.nextUrl.clone();
+        url.searchParams.delete("tiket");
+        url.searchParams.set("dibatasi", "1");
+        return NextResponse.redirect(url, { status: 303 });
     }
 
     return null;

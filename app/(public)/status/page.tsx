@@ -18,10 +18,11 @@ import { STATUS_BADGE_VARIANT, STATUS_DESKRIPSI, STATUS_LABEL } from "@/lib/stat
 export default async function StatusPage({
     searchParams,
 }: {
-    searchParams: Promise<{ tiket?: string }>;
+    searchParams: Promise<{ tiket?: string; dibatasi?: string }>;
 }) {
-    const { tiket } = await searchParams;
+    const { tiket, dibatasi } = await searchParams;
     const nomorTiket = tiket?.trim() ?? "";
+    const kenaRateLimit = dibatasi === "1";
     // undefined = belum mencari (tiket kosong), null = dicari tapi tidak ditemukan
     const hasil = nomorTiket ? await cekStatusPengajuan(nomorTiket) : undefined;
 
@@ -60,7 +61,16 @@ export default async function StatusPage({
                 </CardContent>
             </Card>
 
-            {hasil === null && (
+            {kenaRateLimit && (
+                <Card className="mt-4 border-destructive/50">
+                    <CardContent className="pt-6 text-center text-sm text-destructive">
+                        Terlalu banyak percobaan cek status dari perangkat Anda.
+                        Silakan coba lagi dalam 1 menit.
+                    </CardContent>
+                </Card>
+            )}
+
+            {!kenaRateLimit && hasil === null && (
                 <Card className="mt-4 border-dashed">
                     <CardContent className="pt-6 text-center text-sm text-muted-foreground">
                         Nomor tiket tidak ditemukan. Pastikan nomor tiket sudah benar.
