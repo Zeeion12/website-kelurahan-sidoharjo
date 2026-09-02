@@ -60,16 +60,13 @@ export function Footer() {
                     <p className="font-heading text-sm font-semibold text-white">
                         Kontak
                     </p>
-                    <p>Email: sidoharjotepus.1949@gmail.com</p>
-                    <p className="pt-2 text-xs text-white/50">
-                        Dibuat oleh Mahasiswa Informatika UII (KKN Angkatan 73)
-                    </p>
+                    <p>Email: desasidoharjo119@gmail.com</p>
+                    <p>Contact Person: 0882006990742 (Andang Sulistriyanto)</p>
                 </div>
             </div>
             <div className="border-t border-white/10">
                 <div className="mx-auto w-full max-w-5xl px-4 py-4 text-center text-xs text-white/50 sm:text-left">
-                    &copy; {new Date().getFullYear()} Kalurahan Sidoharjo. Layanan surat
-                    online.
+                    &copy; {new Date().getFullYear()} KKN Informatika UII (Angkatan 73 Unit 119, 120, 122).
                 </div>
             </div>
         </footer>
